@@ -16,12 +16,7 @@ public static class PlayerManager
 
     public static void AddPlayer(int playerNumber)
     {
-        Debug.Log("Players: ");
         Players[playerNumber - 1] = true;
-        foreach (var item in Players)
-        {
-            Debug.Log(item);
-        }
     }
 
     public static void RemovePlayer(int playerNumber)

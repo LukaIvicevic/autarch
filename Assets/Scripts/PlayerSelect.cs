@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerSelect : MonoBehaviour
 {
@@ -17,22 +18,27 @@ public class PlayerSelect : MonoBehaviour
         if (Input.GetButtonDown("Fire1_P1"))
         {
             PlayerManager.AddPlayer(1);
-            Debug.Log("Player1 Added");
         }
+
         if (Input.GetButtonDown("Fire1_P2"))
         {
             PlayerManager.AddPlayer(2);
-            Debug.Log("Player2 Added");
         }
+
         if (Input.GetButtonDown("Fire1_P3"))
         {
             PlayerManager.AddPlayer(3);
-            Debug.Log("Player3 Added");
         }
+
         if (Input.GetButtonDown("Fire1_P4"))
         {
             PlayerManager.AddPlayer(4);
-            Debug.Log("Player4 Added");
+        }
+
+        if (Input.GetButtonDown("Submit"))
+        {
+            // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene("Level1");
         }
     }
 }
