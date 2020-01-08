@@ -8,7 +8,7 @@ public static class PlayerManager
     public static int PlayerCount { 
         get
         { 
-            return Players.Count(x => x);
+            return Players.Count();
         }
     }
 
@@ -16,11 +16,16 @@ public static class PlayerManager
 
     public static void AddPlayer(int playerNumber)
     {
-        Players[playerNumber] = true;
+        Debug.Log("Players: ");
+        Players[playerNumber - 1] = true;
+        foreach (var item in Players)
+        {
+            Debug.Log(item);
+        }
     }
 
     public static void RemovePlayer(int playerNumber)
     {
-        Players[playerNumber] = false;
+        Players[playerNumber - 1] = false;
     }
 }
