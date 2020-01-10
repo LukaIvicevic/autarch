@@ -25,18 +25,23 @@ public class PlayerActivation : MonoBehaviour
 
     private void SetPlayerColor()
     {
+        Debug.Log("in");
         switch (controller.PlayerNumber)
         {
             case 1:
+                Debug.Log("set1");
                 sr.color = PlayerManager.PlayerColor1;
                 break;
             case 2:
+                Debug.Log("set2");
                 sr.color = PlayerManager.PlayerColor2;
                 break;
             case 3:
+                Debug.Log("set3");
                 sr.color = PlayerManager.PlayerColor3;
                 break;
             case 4:
+                Debug.Log("set4");
                 sr.color = PlayerManager.PlayerColor4;
                 break;
         }
