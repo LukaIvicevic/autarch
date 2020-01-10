@@ -9,6 +9,7 @@ public class PlayerActivation : MonoBehaviour
     public CircleCollider2D cc;
     public CharacterController2D controller;
     public PlayerMovement pm;
+    public GameObject w;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class PlayerActivation : MonoBehaviour
             cc.enabled = true;
             controller.enabled = true;
             pm.enabled = true;
+            w.SetActive(true);
             SetPlayerColor();
         }
     }
