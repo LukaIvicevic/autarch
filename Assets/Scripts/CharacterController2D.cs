@@ -84,7 +84,11 @@ public class CharacterController2D : MonoBehaviour
 		if (m_Grounded)
 		{
 			m_Grounded = false;
-			m_Rigidbody2D.velocity = Vector2.up * m_JumpForce;
+
+			// Set Y velocity to jump force
+			var newVelocity = m_Rigidbody2D.velocity;
+			newVelocity.y = m_JumpForce;
+			m_Rigidbody2D.velocity = newVelocity;
 		}
 	}
 
@@ -94,9 +98,6 @@ public class CharacterController2D : MonoBehaviour
 		// Switch the way the player is labelled as facing.
 		m_FacingRight = !m_FacingRight;
 
-		// Multiply the player's x local scale by -1.
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
+		transform.Rotate(0f, 180f, 0f);
 	}
 }
