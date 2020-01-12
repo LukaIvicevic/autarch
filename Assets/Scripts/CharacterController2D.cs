@@ -17,6 +17,12 @@ public class CharacterController2D : MonoBehaviour
 	private LayerMask whatIsGround;
 	[SerializeField]
 	private Transform groundCheck;
+	[SerializeField]
+	private GameObject ws;
+
+	private SpriteRenderer sr;
+	private CircleCollider2D cc;
+	private PlayerMovement pm;
 
 	private bool grounded;
 	private Rigidbody2D rb;
@@ -35,6 +41,11 @@ public class CharacterController2D : MonoBehaviour
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		sr = GetComponent<SpriteRenderer>();
+		cc = GetComponent<CircleCollider2D>();
+		pm = GetComponent<PlayerMovement>();
+
+		ActivateCharacter();
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
@@ -87,8 +98,10 @@ public class CharacterController2D : MonoBehaviour
 
 	public void Jump()
 	{
+		Debug.Log("Jump Called");
 		if (grounded)
 		{
+			Debug.Log("Actual Jump");
 			grounded = false;
 
 			// Set Y velocity to jump force
@@ -127,5 +140,49 @@ public class CharacterController2D : MonoBehaviour
 		isFacingRight = !isFacingRight;
 
 		transform.Rotate(0f, 180f, 0f);
+	}
+
+	private void ActivateCharacter()
+	{
+		if (PlayerManager.Players[playerNumber - 1])
+		{
+			sr.enabled = true;
+			rb.bodyType = RigidbodyType2D.Dynamic;
+			cc.enabled = true;
+			pm.enabled = true;
+			ws.SetActive(true);
+			SetPlayerColor();
+		}
+	}
+
+	private void DeactivateCharacter()
+	{
+		if (PlayerManager.Players[playerNumber - 1])
+		{
+			sr.enabled = false;
+			rb.bodyType = RigidbodyType2D.Kinematic;
+			cc.enabled = false;
+			pm.enabled = false;
+			ws.SetActive(false);
+		}
+	}
+
+	private void SetPlayerColor()
+	{
+		switch (playerNumber)
+		{
+			case 1:
+				sr.color = PlayerManager.PlayerColor1;
+				break;
+			case 2:
+				sr.color = PlayerManager.PlayerColor2;
+				break;
+			case 3:
+				sr.color = PlayerManager.PlayerColor3;
+				break;
+			case 4:
+				sr.color = PlayerManager.PlayerColor4;
+				break;
+		}
 	}
 }

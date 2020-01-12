@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2105090719050828072}
   - component: {fileID: 2105090719050828073}
   - component: {fileID: 2105090719050828078}
-  - component: {fileID: 1685899190236933880}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -132,7 +131,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105090719050828068}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c18519236ea98545a3816056a233d61, type: 3}
   m_Name: 
@@ -144,8 +143,9 @@ MonoBehaviour:
   airControl: 1
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   groundCheck: {fileID: 2105090719297168152}
+  ws: {fileID: 7102842525552550412}
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -165,24 +165,6 @@ MonoBehaviour:
   runSpeed: 50
   fallMultiplier: 3
   lowJumpMultiplier: 5
---- !u!114 &1685899190236933880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2105090719050828068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91fc82d55b5dd8c4e8b18fb9a3152249, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sr: {fileID: 2105090719050828069}
-  rb: {fileID: 2105090719050828075}
-  cc: {fileID: 2105090719050828072}
-  controller: {fileID: 2105090719050828073}
-  pm: {fileID: 2105090719050828078}
-  w: {fileID: 7102842525552550412}
 --- !u!1 &2105090719297168155
 GameObject:
   m_ObjectHideFlags: 0
