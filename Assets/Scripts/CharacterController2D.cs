@@ -98,6 +98,28 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
+	public void TakeDamage(float damage)
+	{
+		health -= damage;
+
+		Debug.Log("Player " + playerNumber + " took " + damage + " damage. Remaining health: " + health + ".");
+
+		if (health <= 0)
+		{
+			Die();
+		}
+	}
+
+	public void Die()
+	{
+		Debug.Log("Player " + playerNumber + " died.");
+	}
+
+	public void Respawn()
+	{
+		Debug.Log("Player " + playerNumber + " respawned.");
+	}
+
 
 	private void Flip()
 	{

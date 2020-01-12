@@ -14,21 +14,8 @@ public class Pistol : MonoBehaviour, IWeapon
     {
         if (Time.time >= canFireTime)
         {
-            Debug.Log("Pew Pew");
             Instantiate(bullet, firePoint.position, firePoint.rotation);
             canFireTime = Time.time + fireDelay;
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

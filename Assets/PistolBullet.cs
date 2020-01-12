@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PistolBullet : MonoBehaviour
 {
+    public float damage = 10;
     public float speed = 20f;
     public Rigidbody2D rb;
 
@@ -15,6 +16,13 @@ public class PistolBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        var player = collision.GetComponent<CharacterController2D>();
+        
+        if (player != null)
+        {
+            player.TakeDamage(damage);
+        }
+
         Destroy(gameObject);
     }
 }
