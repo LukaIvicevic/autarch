@@ -5,7 +5,9 @@ public class CharacterController2D : MonoBehaviour
 {
 	public int playerNumber = 1;
 	[SerializeField]
-	private float health = 100;
+	private float maxHealth = 100f;
+	[SerializeField]
+	private float respawnTime = 5f;
 	[SerializeField]
 	private float jumpForce = 5f;
 	[Range(0, .3f)]
@@ -21,6 +23,8 @@ public class CharacterController2D : MonoBehaviour
 	private GameObject ws;
 	[SerializeField]
 	private Transform deadPosition;
+	[SerializeField]
+	private Transform[] respawnPositions;
 
 	private SpriteRenderer sr;
 	private CircleCollider2D cc;
@@ -30,6 +34,9 @@ public class CharacterController2D : MonoBehaviour
 	private Rigidbody2D rb;
 	private bool isFacingRight = true;
 	private Vector3 velocity = Vector3.zero;
+	private bool isDead = false;
+	private float canRespawnTime = 0;
+	private float health = 100f;
 
 	const float groundedRadius = .2f;
 
@@ -49,8 +56,18 @@ public class CharacterController2D : MonoBehaviour
 
 		ActivateCharacter();
 
+		health = maxHealth;
+
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
+	}
+
+	private void Update()
+	{
+		if (isDead && Time.time >= canRespawnTime)
+		{
+			Respawn();
+		}
 	}
 
 	private void FixedUpdate()
@@ -126,13 +143,20 @@ public class CharacterController2D : MonoBehaviour
 	public void Die()
 	{
 		Debug.Log("Player " + playerNumber + " died.");
+		isDead = true;
 		DeactivateCharacter();
 		transform.position = deadPosition.position;
+		canRespawnTime = Time.time + respawnTime;
 	}
 
 	public void Respawn()
 	{
 		Debug.Log("Player " + playerNumber + " respawned.");
+		isDead = false;
+		health = maxHealth;
+		var respawnPositionIndex = Random.Range(0, respawnPositions.Length);
+		transform.position = respawnPositions[respawnPositionIndex].position;
+		ActivateCharacter();
 	}
 
 

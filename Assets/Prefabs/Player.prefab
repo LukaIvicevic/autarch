@@ -137,15 +137,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 1
-  health: 100
+  maxHealth: 100
+  respawnTime: 5
   jumpForce: 10
-  movementSmoothing: 0.05
+  movementSmoothing: 0.2
   airControl: 1
   whatIsGround:
     serializedVersion: 2
     m_Bits: 4294967295
   groundCheck: {fileID: 2105090719297168152}
   ws: {fileID: 7102842525552550412}
+  deadPosition: {fileID: 0}
+  respawnPositions:
+  - {fileID: 0}
+  - {fileID: 0}
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
