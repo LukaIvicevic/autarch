@@ -13,7 +13,7 @@ public class PlayerActivation : MonoBehaviour
 
     private void Awake()
     {
-        if (PlayerManager.Players[controller.PlayerNumber - 1])
+        if (PlayerManager.Players[controller.playerNumber - 1])
         {
             sr.enabled = true;
             rb.bodyType = RigidbodyType2D.Dynamic;
@@ -27,23 +27,18 @@ public class PlayerActivation : MonoBehaviour
 
     private void SetPlayerColor()
     {
-        Debug.Log("in");
-        switch (controller.PlayerNumber)
+        switch (controller.playerNumber)
         {
             case 1:
-                Debug.Log("set1");
                 sr.color = PlayerManager.PlayerColor1;
                 break;
             case 2:
-                Debug.Log("set2");
                 sr.color = PlayerManager.PlayerColor2;
                 break;
             case 3:
-                Debug.Log("set3");
                 sr.color = PlayerManager.PlayerColor3;
                 break;
             case 4:
-                Debug.Log("set4");
                 sr.color = PlayerManager.PlayerColor4;
                 break;
         }

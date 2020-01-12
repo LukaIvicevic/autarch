@@ -3,24 +3,30 @@ using UnityEngine.Events;
 
 public class CharacterController2D : MonoBehaviour
 {
-	public int PlayerNumber = 1;
-	[SerializeField] private float m_JumpForce = 5f;							// Amount of force added when the player jumps.
-	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;	// How much to smooth out the movement
-	[SerializeField] private bool m_AirControl = false;							// Whether or not a player can steer while jumping;
-	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
-	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
-	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
+	public int playerNumber = 1;
+	[SerializeField]
+	private float health = 100;
+	[SerializeField]
+	private float jumpForce = 5f;
+	[Range(0, .3f)]
+	[SerializeField]
+	private float movementSmoothing = .05f;
+	[SerializeField]
+	private bool airControl = false;
+	[SerializeField]
+	private LayerMask whatIsGround;
+	[SerializeField]
+	private Transform groundCheck;
 
-	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-	private bool m_Grounded;            // Whether or not the player is grounded.
-	const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
-	private Rigidbody2D m_Rigidbody2D;
-	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-	private Vector3 m_Velocity = Vector3.zero;
+	private bool grounded;
+	private Rigidbody2D rb;
+	private bool isFacingRight = true;
+	private Vector3 velocity = Vector3.zero;
+
+	const float groundedRadius = .2f;
 
 	[Header("Events")]
 	[Space]
-
 	public UnityEvent OnLandEvent;
 
 	[System.Serializable]
@@ -28,7 +34,7 @@ public class CharacterController2D : MonoBehaviour
 
 	private void Awake()
 	{
-		m_Rigidbody2D = GetComponent<Rigidbody2D>();
+		rb = GetComponent<Rigidbody2D>();
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
@@ -36,17 +42,17 @@ public class CharacterController2D : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		bool wasGrounded = m_Grounded;
-		m_Grounded = false;
+		bool wasGrounded = grounded;
+		grounded = false;
 
 		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
 		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
 		for (int i = 0; i < colliders.Length; i++)
 		{
 			if (colliders[i].gameObject != gameObject)
 			{
-				m_Grounded = true;
+				grounded = true;
 				if (!wasGrounded)
 					OnLandEvent.Invoke();
 			}
@@ -57,21 +63,21 @@ public class CharacterController2D : MonoBehaviour
 	public void Move(float move)
 	{
 		//only control the player if grounded or airControl is turned on
-		if (m_Grounded || m_AirControl)
+		if (grounded || airControl)
 		{
 			// Move the character by finding the target velocity
-			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
+			Vector3 targetVelocity = new Vector2(move * 10f, rb.velocity.y);
 			// And then smoothing it out and applying it to the character
-			m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+			rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref velocity, movementSmoothing);
 
 			// If the input is moving the player right and the player is facing left...
-			if (move > 0 && !m_FacingRight)
+			if (move > 0 && !isFacingRight)
 			{
 				// ... flip the player.
 				Flip();
 			}
 			// Otherwise if the input is moving the player left and the player is facing right...
-			else if (move < 0 && m_FacingRight)
+			else if (move < 0 && isFacingRight)
 			{
 				// ... flip the player.
 				Flip();
@@ -81,14 +87,14 @@ public class CharacterController2D : MonoBehaviour
 
 	public void Jump()
 	{
-		if (m_Grounded)
+		if (grounded)
 		{
-			m_Grounded = false;
+			grounded = false;
 
 			// Set Y velocity to jump force
-			var newVelocity = m_Rigidbody2D.velocity;
-			newVelocity.y = m_JumpForce;
-			m_Rigidbody2D.velocity = newVelocity;
+			var newVelocity = rb.velocity;
+			newVelocity.y = jumpForce;
+			rb.velocity = newVelocity;
 		}
 	}
 
@@ -96,7 +102,7 @@ public class CharacterController2D : MonoBehaviour
 	private void Flip()
 	{
 		// Switch the way the player is labelled as facing.
-		m_FacingRight = !m_FacingRight;
+		isFacingRight = !isFacingRight;
 
 		transform.Rotate(0f, 180f, 0f);
 	}

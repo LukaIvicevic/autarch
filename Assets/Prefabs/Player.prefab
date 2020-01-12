@@ -137,15 +137,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c18519236ea98545a3816056a233d61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 1
-  m_JumpForce: 15
-  m_MovementSmoothing: 0.048
-  m_AirControl: 1
-  m_WhatIsGround:
+  playerNumber: 1
+  health: 100
+  jumpForce: 10
+  movementSmoothing: 0.05
+  airControl: 1
+  whatIsGround:
     serializedVersion: 2
-    m_Bits: 4294967295
-  m_GroundCheck: {fileID: 2105090719297168152}
-  m_CeilingCheck: {fileID: 2105090720627148625}
+    m_Bits: 0
+  groundCheck: {fileID: 2105090719297168152}
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
