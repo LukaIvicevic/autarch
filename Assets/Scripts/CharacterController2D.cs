@@ -19,6 +19,8 @@ public class CharacterController2D : MonoBehaviour
 	private Transform groundCheck;
 	[SerializeField]
 	private GameObject ws;
+	[SerializeField]
+	private Transform deadPosition;
 
 	private SpriteRenderer sr;
 	private CircleCollider2D cc;
@@ -98,10 +100,8 @@ public class CharacterController2D : MonoBehaviour
 
 	public void Jump()
 	{
-		Debug.Log("Jump Called");
 		if (grounded)
 		{
-			Debug.Log("Actual Jump");
 			grounded = false;
 
 			// Set Y velocity to jump force
@@ -126,6 +126,8 @@ public class CharacterController2D : MonoBehaviour
 	public void Die()
 	{
 		Debug.Log("Player " + playerNumber + " died.");
+		DeactivateCharacter();
+		transform.position = deadPosition.position;
 	}
 
 	public void Respawn()

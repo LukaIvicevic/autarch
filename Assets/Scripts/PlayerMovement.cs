@@ -28,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump_P" + controller.playerNumber))
         {
-            Debug.Log("Jump");
             jump = true;
         }
 
