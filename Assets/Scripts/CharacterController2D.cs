@@ -193,6 +193,7 @@ public class CharacterController2D : MonoBehaviour
 			cc.enabled = true;
 			pm.enabled = true;
 			ws.SetActive(true);
+			scoreText.enabled = true;
 			SetPlayerColor();
 		}
 	}
@@ -215,15 +216,23 @@ public class CharacterController2D : MonoBehaviour
 		{
 			case 1:
 				sr.color = PlayerManager.PlayerColor1;
+				if (scoreText)
+					scoreText.color = PlayerManager.PlayerColor1;
 				break;
 			case 2:
 				sr.color = PlayerManager.PlayerColor2;
+				if (scoreText)
+					scoreText.color = PlayerManager.PlayerColor2;
 				break;
 			case 3:
 				sr.color = PlayerManager.PlayerColor3;
+				if (scoreText)
+					scoreText.color = PlayerManager.PlayerColor3;
 				break;
 			case 4:
 				sr.color = PlayerManager.PlayerColor4;
+				if (scoreText)
+					scoreText.color = PlayerManager.PlayerColor4;
 				break;
 		}
 	}
