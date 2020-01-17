@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 1
+  score: 0
   maxHealth: 100
   respawnTime: 5
   jumpForce: 10
@@ -343,6 +344,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4586923278189661035, guid: 38b45a93c31603846b93c43d7f6ce001,
+        type: 3}
+      propertyPath: owner
+      value: 
+      objectReference: {fileID: 2105090719050828073}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38b45a93c31603846b93c43d7f6ce001, type: 3}
 --- !u!1 &3801410241411376516 stripped

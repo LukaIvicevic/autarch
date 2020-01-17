@@ -1,9 +1,11 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CharacterController2D : MonoBehaviour
 {
 	public int playerNumber = 1;
+	public int score = 0;
 	[SerializeField]
 	private float maxHealth = 100f;
 	[SerializeField]
@@ -25,6 +27,8 @@ public class CharacterController2D : MonoBehaviour
 	private Transform deadPosition;
 	[SerializeField]
 	private Transform[] respawnPositions;
+	[SerializeField]
+	private TextMeshProUGUI scoreText;
 
 	private SpriteRenderer sr;
 	private CircleCollider2D cc;
@@ -37,6 +41,7 @@ public class CharacterController2D : MonoBehaviour
 	private bool isDead = false;
 	private float canRespawnTime = 0;
 	private float health = 100f;
+	private int killPoints = 1;
 
 	const float groundedRadius = .2f;
 
@@ -53,6 +58,11 @@ public class CharacterController2D : MonoBehaviour
 		sr = GetComponent<SpriteRenderer>();
 		cc = GetComponent<CircleCollider2D>();
 		pm = GetComponent<PlayerMovement>();
+
+		if (scoreText != null)
+		{
+			scoreText.text = "Player " + playerNumber + ": " + score;
+		}
 
 		ActivateCharacter();
 
@@ -128,15 +138,17 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
-	public void TakeDamage(float damage)
+	public void TakeDamage(float damage, CharacterController2D damagedByPlayer)
 	{
 		health -= damage;
 
-		Debug.Log("Player " + playerNumber + " took " + damage + " damage. Remaining health: " + health + ".");
+		Debug.Log("Player " + playerNumber + " took " + damage + " damage from Player " + damagedByPlayer.playerNumber + ". Remaining health: " + health + ".");
 
 		if (health <= 0)
 		{
 			Die();
+			damagedByPlayer.score += killPoints;
+			damagedByPlayer.UpdateScoreText();
 		}
 	}
 
@@ -159,6 +171,10 @@ public class CharacterController2D : MonoBehaviour
 		ActivateCharacter();
 	}
 
+	public void UpdateScoreText()
+	{
+		scoreText.text = "Player " + playerNumber + ": " + score;
+	}
 
 	private void Flip()
 	{

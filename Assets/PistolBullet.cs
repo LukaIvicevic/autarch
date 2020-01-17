@@ -7,6 +7,7 @@ public class PistolBullet : MonoBehaviour
     public float damage = 10;
     public float speed = 20f;
     public Rigidbody2D rb;
+    public CharacterController2D firedBy;
 
     // Start is called before the first frame update
     void Start()
@@ -16,11 +17,11 @@ public class PistolBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var player = collision.GetComponent<CharacterController2D>();
+        var damagedPlayer = collision.GetComponent<CharacterController2D>();
         
-        if (player != null)
+        if (damagedPlayer != null)
         {
-            player.TakeDamage(damage);
+            damagedPlayer.TakeDamage(damage, firedBy);
         }
 
         Destroy(gameObject);
