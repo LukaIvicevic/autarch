@@ -35,12 +35,12 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isMoving", true);
         }
 
-        if (Input.GetButtonDown("Jump_P" + controller.playerNumber))
+        if (Input.GetAxisRaw("Jump_P" + controller.playerNumber) > 0)
         {
             jump = true;
         }
 
-        jumpHeld = Input.GetButton("Jump_P" + controller.playerNumber);
+        jumpHeld = Input.GetAxisRaw("Jump_P" + controller.playerNumber) > 0;
     }
 
     void FixedUpdate()
