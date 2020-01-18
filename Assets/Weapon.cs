@@ -15,18 +15,52 @@ public class Weapon : MonoBehaviour
     {
         controller = player.GetComponent<CharacterController2D>();
         wc = weapon.GetComponent<IWeapon>();
+
         rotation = transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // TODO: Rotate weapon based on input
         transform.rotation = rotation;
+        RotateWeapon();
 
         if (Input.GetButtonDown("Fire1_P" + controller.playerNumber))
         {
             wc.Fire();
+        }
+    }
+
+    private void RotateWeapon()
+    {
+        var horizontalAim = Input.GetAxisRaw("HorizontalAim_P" + controller.playerNumber);
+        if (horizontalAim != 0)
+        {
+            if (horizontalAim == 1)
+            {
+                rotation = Quaternion.Euler(0, 0, 0);
+                transform.rotation = rotation;
+            }
+            else if (horizontalAim == -1)
+            {
+                rotation = Quaternion.Euler(0, 180, 0);
+                transform.rotation = rotation;
+            }
+        }
+
+        var verticalAim = Input.GetAxisRaw("VerticalAim_P" + controller.playerNumber);
+        if (verticalAim != 0)
+        {
+            if (verticalAim == 1)
+            {
+                rotation = Quaternion.Euler(0, 0, 90);
+                transform.rotation = rotation;
+            }
+            else if (verticalAim == -1)
+            {
+                rotation = Quaternion.Euler(0, 0, 270);
+                transform.rotation = rotation;
+            }
         }
     }
 }
