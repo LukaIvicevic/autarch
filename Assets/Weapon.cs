@@ -25,7 +25,7 @@ public class Weapon : MonoBehaviour
         transform.rotation = rotation;
         RotateWeapon();
 
-        if (Input.GetButtonDown("Fire1_P" + controller.playerNumber))
+        if (Input.GetAxisRaw("Fire1_P" + controller.playerNumber) > 0)
         {
             wc.Fire();
         }

@@ -14,25 +14,25 @@ public class PlayerSelect : MonoBehaviour
     void Update()
     {
         // Add players when they press fire button
-        if (Input.GetButtonDown("Fire1_P1"))
+        if (Input.GetAxisRaw("Fire1_P1") > 0)
         {
             PlayerManager.AddPlayer(1);
             Player1.SetActive(true);
         }
 
-        if (Input.GetButtonDown("Fire1_P2"))
+        if (Input.GetAxisRaw("Fire1_P2") > 0)
         {
             PlayerManager.AddPlayer(2);
             Player2.SetActive(true);
         }
 
-        if (Input.GetButtonDown("Fire1_P3"))
+        if (Input.GetAxisRaw("Fire1_P3") > 0)
         {
             PlayerManager.AddPlayer(3);
             Player3.SetActive(true);
         }
 
-        if (Input.GetButtonDown("Fire1_P4"))
+        if (Input.GetAxisRaw("Fire1_P4") > 0)
         {
             PlayerManager.AddPlayer(4);
             Player4.SetActive(true);
