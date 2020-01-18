@@ -22,6 +22,8 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField]
 	private Transform groundCheck;
 	[SerializeField]
+	private Transform wallCheck;
+	[SerializeField]
 	private GameObject ws;
 	[SerializeField]
 	private Transform deadPosition;
@@ -35,6 +37,7 @@ public class CharacterController2D : MonoBehaviour
 	private PlayerMovement pm;
 
 	private bool grounded;
+	private bool isTouchingWall;
 	private Rigidbody2D rb;
 	private bool isFacingRight = true;
 	private Vector3 velocity = Vector3.zero;
@@ -42,8 +45,11 @@ public class CharacterController2D : MonoBehaviour
 	private float canRespawnTime = 0;
 	private float health = 100f;
 	private int killPoints = 1;
+	private bool isWallSliding = false;
 
 	const float groundedRadius = .2f;
+	const float wallCheckRadius = .2f;
+	const float wallSlideFriction = .8f;
 
 	[Header("Events")]
 	[Space]
@@ -84,7 +90,13 @@ public class CharacterController2D : MonoBehaviour
 	{
 		bool wasGrounded = grounded;
 		grounded = false;
+		isTouchingWall = false;
+		GroundCheck(wasGrounded);
+		WallCheck();
+	}
 
+	private void GroundCheck(bool wasGrounded)
+	{
 		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
 		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
 		Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
@@ -99,10 +111,21 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
+	private void WallCheck()
+	{
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(wallCheck.position, wallCheckRadius, whatIsGround);
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			if (colliders[i].gameObject != gameObject)
+			{
+				isTouchingWall = true;
+			}
+		}
+	}
 
 	public void Move(float move)
 	{
-		//only control the player if grounded or airControl is turned on
+		// Only control the player if grounded or airControl is turned on
 		if (grounded || airControl)
 		{
 			// Move the character by finding the target velocity
@@ -122,6 +145,29 @@ public class CharacterController2D : MonoBehaviour
 				// ... flip the player.
 				Flip();
 			}
+		}
+
+		// Increase friction for wall sliding if touching a wall and moving in that direction
+		if (isTouchingWall && move != 0 && rb.velocity.y < 0)
+		{
+			Debug.Log("Increase FRICTION");
+			cc.sharedMaterial.friction = wallSlideFriction;
+
+			// Turn collider off then on to reset friction cache
+			cc.enabled = false;
+			cc.enabled = true;
+
+			isWallSliding = true;
+		} else
+		{
+			Debug.Log("Normal Friction");
+			cc.sharedMaterial.friction = 0f;
+
+			// Turn collider off then on to reset friction cache
+			cc.enabled = false;
+			cc.enabled = true;
+
+			isWallSliding = false;
 		}
 	}
 
