@@ -150,7 +150,6 @@ public class CharacterController2D : MonoBehaviour
 		// Increase friction for wall sliding if touching a wall and moving in that direction
 		if (isTouchingWall && move != 0 && rb.velocity.y < 0)
 		{
-			Debug.Log("Increase FRICTION");
 			cc.sharedMaterial.friction = wallSlideFriction;
 
 			// Turn collider off then on to reset friction cache
@@ -160,7 +159,6 @@ public class CharacterController2D : MonoBehaviour
 			isWallSliding = true;
 		} else
 		{
-			Debug.Log("Normal Friction");
 			cc.sharedMaterial.friction = 0f;
 
 			// Turn collider off then on to reset friction cache

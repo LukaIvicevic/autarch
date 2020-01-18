@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController2D controller;
+    public Animator animator;
 
     public float runSpeed = 40f;
     public float fallMultiplier = 2.5f;
@@ -19,12 +20,21 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        // animator.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal_P" + controller.playerNumber) * runSpeed;
+
+        if (horizontalMove == 0)
+        {
+            animator.SetBool("isMoving", false);
+        } else
+        {
+            animator.SetBool("isMoving", true);
+        }
 
         if (Input.GetButtonDown("Jump_P" + controller.playerNumber))
         {
