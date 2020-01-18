@@ -20,7 +20,6 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        // animator.enabled = true;
     }
 
     // Update is called once per frame
@@ -28,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontalMove = Input.GetAxisRaw("Horizontal_P" + controller.playerNumber) * runSpeed;
 
-        if (horizontalMove == 0)
+        if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) < 1)
         {
             animator.SetBool("isMoving", false);
         } else
