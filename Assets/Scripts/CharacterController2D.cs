@@ -31,6 +31,8 @@ public class CharacterController2D : MonoBehaviour
 	private Transform[] respawnPositions;
 	[SerializeField]
 	private TextMeshProUGUI scoreText;
+	[SerializeField]
+	private Animator animator;
 
 	private SpriteRenderer sr;
 	private CircleCollider2D cc;
@@ -47,7 +49,7 @@ public class CharacterController2D : MonoBehaviour
 	private int killPoints = 1;
 	private bool isWallSliding = false;
 
-	const float groundedRadius = .2f;
+	const float groundedRadius = .1f;
 	const float wallCheckRadius = .2f;
 	const float wallSlideFriction = .8f;
 
@@ -76,6 +78,8 @@ public class CharacterController2D : MonoBehaviour
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
+
+		OnLandEvent.AddListener(StopJumpAnimation);
 	}
 
 	private void Update()
@@ -157,6 +161,7 @@ public class CharacterController2D : MonoBehaviour
 			cc.enabled = true;
 
 			isWallSliding = true;
+			animator.SetBool("isJumping", false);
 		} else
 		{
 			cc.sharedMaterial.friction = 0f;
@@ -166,7 +171,14 @@ public class CharacterController2D : MonoBehaviour
 			cc.enabled = true;
 
 			isWallSliding = false;
+
+			if (!grounded)
+			{
+				animator.SetBool("isJumping", true);
+			}
 		}
+
+		animator.SetBool("isWallSliding", isWallSliding);
 	}
 
 	public void Jump()
@@ -183,6 +195,9 @@ public class CharacterController2D : MonoBehaviour
 
 		if (isWallSliding)
 		{
+			grounded = false;
+			isWallSliding = false;
+
 			// Set Y velocity to jump force
 			var newVelocity = rb.velocity;
 			newVelocity.y = jumpForce;
@@ -194,6 +209,11 @@ public class CharacterController2D : MonoBehaviour
 				newVelocity.x = jumpForce;
 			}
 			rb.velocity = newVelocity;
+		}
+
+		if (!grounded && !isWallSliding)
+		{
+			animator.SetBool("isJumping", true);
 		}
 	}
 
@@ -233,6 +253,11 @@ public class CharacterController2D : MonoBehaviour
 	public void UpdateScoreText()
 	{
 		scoreText.text = "Player " + playerNumber + ": " + score;
+	}
+
+	private void StopJumpAnimation()
+	{
+		animator.SetBool("isJumping", false);
 	}
 
 	private void Flip()
