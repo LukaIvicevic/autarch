@@ -182,6 +182,21 @@ public class CharacterController2D : MonoBehaviour
 			newVelocity.y = jumpForce;
 			rb.velocity = newVelocity;
 		}
+
+		if (isWallSliding)
+		{
+			// Set Y velocity to jump force
+			var newVelocity = rb.velocity;
+			newVelocity.y = jumpForce;
+			if (isFacingRight)
+			{
+				newVelocity.x = -jumpForce;
+			} else
+			{
+				newVelocity.x = jumpForce;
+			}
+			rb.velocity = newVelocity;
+		}
 	}
 
 	public void TakeDamage(float damage, CharacterController2D damagedByPlayer)
