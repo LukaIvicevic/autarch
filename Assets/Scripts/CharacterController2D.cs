@@ -48,10 +48,14 @@ public class CharacterController2D : MonoBehaviour
 	private float health = 100f;
 	private int killPoints = 1;
 	private bool isWallSliding = false;
+	private float defaultMovementSmoothing;
+	private float canReturnToDefaultSmoothingTime;
 
 	const float groundedRadius = .1f;
 	const float wallCheckRadius = .2f;
 	const float wallSlideFriction = .8f;
+	const float wallJumpSmoothingTime = .5f;
+	const float wallJumpSmoothing = .5f;
 
 	[Header("Events")]
 	[Space]
@@ -75,6 +79,7 @@ public class CharacterController2D : MonoBehaviour
 		ActivateCharacter();
 
 		health = maxHealth;
+		defaultMovementSmoothing = movementSmoothing;
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
@@ -87,6 +92,11 @@ public class CharacterController2D : MonoBehaviour
 		if (isDead && Time.time >= canRespawnTime)
 		{
 			Respawn();
+		}
+
+		if (Time.time >= canReturnToDefaultSmoothingTime)
+		{
+			movementSmoothing = defaultMovementSmoothing;
 		}
 	}
 
@@ -195,6 +205,9 @@ public class CharacterController2D : MonoBehaviour
 
 		if (isWallSliding)
 		{
+			canReturnToDefaultSmoothingTime = Time.time + wallJumpSmoothingTime;
+			movementSmoothing = wallJumpSmoothing;
+
 			grounded = false;
 			isWallSliding = false;
 
