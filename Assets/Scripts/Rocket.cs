@@ -9,6 +9,8 @@ public class Rocket : MonoBehaviour
     public Rigidbody2D rb;
     public CharacterController2D firedBy;
     public float explosionRadius = 5f;
+    public GameObject explosionPrefab;
+    public float explosionDuration = 0.5f;
 
     private Vector3 originalPosition;
 
@@ -24,14 +26,14 @@ public class Rocket : MonoBehaviour
         RocketRotation();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D()
     {
-        Explode(collision);
+        Explode();
     }
 
-    private void Explode(Collider2D collision)
+    private void Explode()
     {
-        var collisions = Physics2D.OverlapCircleAll(collision.transform.position, explosionRadius);
+        var collisions = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
 
         foreach (var c in collisions)
         {
@@ -43,6 +45,10 @@ public class Rocket : MonoBehaviour
         }
 
         Destroy(gameObject);
+
+        var explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
+        explosion.transform.localScale = new Vector2(explosionRadius * 2, explosionRadius * 2);
+        Destroy(explosion, explosionDuration);
     }
 
     private void RocketRotation()

@@ -146,4 +146,7 @@ MonoBehaviour:
   speed: 15
   rb: {fileID: 1468516281831145426}
   firedBy: {fileID: 0}
-  explosionRadius: 10
+  explosionRadius: 5
+  explosionPrefab: {fileID: 1982473820323381676, guid: eeb7633115ff7cd479e2de9c8f3250af,
+    type: 3}
+  explosionDuration: 0.1
