@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
-    public float damage = 10;
+    public float damage = 30;
     public float speed = 20f;
     public Rigidbody2D rb;
     public CharacterController2D firedBy;
+    public float explosionRadius = 5f;
 
     private Vector3 originalPosition;
 
@@ -25,14 +26,21 @@ public class Rocket : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // TODO: Circle cast and to do damage as explosion
-        Debug.Log("Boom");
-        //var damagedPlayer = collision.GetComponent<CharacterController2D>();
+        Explode(collision);
+    }
 
-        //if (damagedPlayer != null)
-        //{
-        //    damagedPlayer.TakeDamage(damage, firedBy);
-        //}
+    private void Explode(Collider2D collision)
+    {
+        var collisions = Physics2D.OverlapCircleAll(collision.transform.position, explosionRadius);
+
+        foreach (var c in collisions)
+        {
+            var playerController = c.GetComponent<CharacterController2D>();
+            if (playerController != null)
+            {
+                playerController.TakeDamage(damage, firedBy);
+            }
+        }
 
         Destroy(gameObject);
     }
