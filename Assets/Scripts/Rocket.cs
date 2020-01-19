@@ -18,14 +18,9 @@ public class Rocket : MonoBehaviour
         originalPosition = gameObject.transform.position;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        var moveDirection = gameObject.transform.position - originalPosition;
-        if (moveDirection != Vector3.zero)
-        {
-            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        }
+        RocketRotation();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -40,5 +35,25 @@ public class Rocket : MonoBehaviour
         //}
 
         Destroy(gameObject);
+    }
+
+    private void RocketRotation()
+    {
+        if (rb.velocity.x < 0.0001f && rb.velocity.x > -0.0001f && rb.velocity.y > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+            return;
+        } else if (rb.velocity.x < 0.0001f && rb.velocity.x > -0.0001f && rb.velocity.y < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 270);
+            return;
+        }
+
+        var moveDirection = gameObject.transform.position - originalPosition;
+        if (moveDirection != Vector3.zero)
+        {
+            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
     }
 }
