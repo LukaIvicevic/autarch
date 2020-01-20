@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponPickup : MonoBehaviour
 {
     public GameObject weapon;
+    public int respawnTime = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +27,21 @@ public class WeaponPickup : MonoBehaviour
         {
             playerObject.GetComponent<CharacterController2D>().SelectWeapon(weapon.name);
 
-            // TODO: Respawn
-            Destroy(gameObject);
+            DisablePickup();
+
+            Invoke("EnablePickup", respawnTime);
         }
+    }
+
+    private void DisablePickup()
+    {
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+    }
+
+    private void EnablePickup()
+    {
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
     }
 }
