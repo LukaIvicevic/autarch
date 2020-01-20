@@ -15,27 +15,18 @@ public class WeaponPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        PickupWeapon(collision);
+    }
+
+    private void PickupWeapon(Collider2D collision)
+    {
         var playerObject = collision.gameObject;
 
         if (playerObject.tag == "Player")
         {
-            var weaponSlot = playerObject.transform.Find("WeaponSlot");
-            foreach (Transform playerWeapon in weaponSlot)
-            {
-                if (playerWeapon.name == weapon.name)
-                {
-                    playerWeapon.gameObject.SetActive(true);
-                    weaponSlot.GetComponent<Weapon>().weapon = playerWeapon.gameObject;
-                }
-                else
-                {
-                    playerWeapon.gameObject.SetActive(false);
-                }
-            }
+            playerObject.GetComponent<CharacterController2D>().SelectWeapon(weapon.name);
 
-            Debug.Log("Pickup " + weapon.name);
-
-
+            // TODO: Respawn
             Destroy(gameObject);
         }
     }

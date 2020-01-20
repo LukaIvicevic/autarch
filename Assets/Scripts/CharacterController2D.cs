@@ -48,6 +48,7 @@ public class CharacterController2D : MonoBehaviour
 	private float health = 100f;
 	private int killPoints = 1;
 	private bool isWallSliding = false;
+	private Transform weaponSlot;
 
 	const float groundedRadius = .1f;
 	const float wallCheckRadius = .2f;
@@ -253,6 +254,27 @@ public class CharacterController2D : MonoBehaviour
 	public void UpdateScoreText()
 	{
 		scoreText.text = "Player " + playerNumber + ": " + score;
+	}
+
+	public void SelectWeapon(string weaponName)
+	{
+		if (weaponSlot == null)
+		{
+			weaponSlot = transform.Find("WeaponSlot");
+		}
+
+		foreach (Transform weapon in weaponSlot)
+		{
+			if (weapon.name == weaponName)
+			{
+				weapon.gameObject.SetActive(true);
+				weaponSlot.GetComponent<Weapon>().weapon = weapon.gameObject;
+			}
+			else
+			{
+				weapon.gameObject.SetActive(false);
+			}
+		}
 	}
 
 	private void StopJumpAnimation()

@@ -14,7 +14,6 @@ public class Weapon : MonoBehaviour
     void Start()
     {
         controller = player.GetComponent<CharacterController2D>();
-        wc = weapon.GetComponent<IWeapon>();
         rotation = transform.rotation;
     }
 
