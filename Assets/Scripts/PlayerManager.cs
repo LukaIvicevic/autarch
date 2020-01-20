@@ -5,6 +5,13 @@ using UnityEngine;
 
 public static class PlayerManager
 {
+    // Player colors
+    public static Color32 PlayerColor1 = new Color32(45, 226, 230, 255);
+    public static Color32 PlayerColor2 = new Color32(255, 108, 17, 255);
+    public static Color32 PlayerColor3 = new Color32(249, 200, 14, 255);
+    public static Color32 PlayerColor4 = new Color32(246, 1, 157, 255);
+
+
     public static int PlayerCount { 
         get
         { 

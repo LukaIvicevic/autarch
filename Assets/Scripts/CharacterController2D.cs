@@ -1,26 +1,61 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CharacterController2D : MonoBehaviour
 {
-	public int PlayerNumber = 1;
-	[SerializeField] private float m_JumpForce = 5f;							// Amount of force added when the player jumps.
-	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;	// How much to smooth out the movement
-	[SerializeField] private bool m_AirControl = false;							// Whether or not a player can steer while jumping;
-	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
-	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
-	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
+	public int playerNumber = 1;
+	public int score = 0;
+	[SerializeField]
+	private float maxHealth = 100f;
+	[SerializeField]
+	private float respawnTime = 5f;
+	[SerializeField]
+	private float jumpForce = 5f;
+	[Range(0, .3f)]
+	[SerializeField]
+	private float movementSmoothing = .05f;
+	[SerializeField]
+	private bool airControl = false;
+	[SerializeField]
+	private LayerMask whatIsGround;
+	[SerializeField]
+	private Transform groundCheck;
+	[SerializeField]
+	private Transform wallCheck;
+	[SerializeField]
+	private GameObject ws;
+	[SerializeField]
+	private Transform deadPosition;
+	[SerializeField]
+	private Transform[] respawnPositions;
+	[SerializeField]
+	private TextMeshProUGUI scoreText;
+	[SerializeField]
+	private Animator animator;
 
-	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-	private bool m_Grounded;            // Whether or not the player is grounded.
-	const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
-	private Rigidbody2D m_Rigidbody2D;
-	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-	private Vector3 m_Velocity = Vector3.zero;
+	private SpriteRenderer sr;
+	private CircleCollider2D cc;
+	private PlayerMovement pm;
+
+	private bool grounded;
+	private bool isTouchingWall;
+	private Rigidbody2D rb;
+	private bool isFacingRight = true;
+	private Vector3 velocity = Vector3.zero;
+	private bool isDead = false;
+	private float canRespawnTime = 0;
+	private float health = 100f;
+	private int killPoints = 1;
+	private bool isWallSliding = false;
+	private Transform weaponSlot;
+
+	const float groundedRadius = .1f;
+	const float wallCheckRadius = .2f;
+	const float wallSlideFriction = .8f;
 
 	[Header("Events")]
 	[Space]
-
 	public UnityEvent OnLandEvent;
 
 	[System.Serializable]
@@ -28,75 +63,283 @@ public class CharacterController2D : MonoBehaviour
 
 	private void Awake()
 	{
-		m_Rigidbody2D = GetComponent<Rigidbody2D>();
+		rb = GetComponent<Rigidbody2D>();
+		sr = GetComponent<SpriteRenderer>();
+		cc = GetComponent<CircleCollider2D>();
+		pm = GetComponent<PlayerMovement>();
+
+		weaponSlot = transform.Find("WeaponSlot");
+
+
+		if (scoreText != null)
+		{
+			scoreText.text = "Player " + playerNumber + ": " + score;
+		}
+
+		ActivateCharacter();
+
+		health = maxHealth;
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
+
+		OnLandEvent.AddListener(StopJumpAnimation);
+	}
+
+	private void Update()
+	{
+		if (isDead && Time.time >= canRespawnTime)
+		{
+			Respawn();
+		}
 	}
 
 	private void FixedUpdate()
 	{
-		bool wasGrounded = m_Grounded;
-		m_Grounded = false;
+		bool wasGrounded = grounded;
+		grounded = false;
+		isTouchingWall = false;
+		GroundCheck(wasGrounded);
+		WallCheck();
+	}
 
+	private void GroundCheck(bool wasGrounded)
+	{
 		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
 		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
 		for (int i = 0; i < colliders.Length; i++)
 		{
 			if (colliders[i].gameObject != gameObject)
 			{
-				m_Grounded = true;
+				grounded = true;
 				if (!wasGrounded)
 					OnLandEvent.Invoke();
 			}
 		}
 	}
 
+	private void WallCheck()
+	{
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(wallCheck.position, wallCheckRadius, whatIsGround);
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			if (colliders[i].gameObject != gameObject)
+			{
+				isTouchingWall = true;
+			}
+		}
+	}
 
 	public void Move(float move)
 	{
-		//only control the player if grounded or airControl is turned on
-		if (m_Grounded || m_AirControl)
+		// Only control the player if grounded or airControl is turned on
+		if (grounded || airControl)
 		{
 			// Move the character by finding the target velocity
-			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
+			Vector3 targetVelocity = new Vector2(move * 10f, rb.velocity.y);
 			// And then smoothing it out and applying it to the character
-			m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+			rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref velocity, movementSmoothing);
 
 			// If the input is moving the player right and the player is facing left...
-			if (move > 0 && !m_FacingRight)
+			if (move > 0 && !isFacingRight)
 			{
 				// ... flip the player.
 				Flip();
 			}
 			// Otherwise if the input is moving the player left and the player is facing right...
-			else if (move < 0 && m_FacingRight)
+			else if (move < 0 && isFacingRight)
 			{
 				// ... flip the player.
 				Flip();
 			}
 		}
+
+		// Increase friction for wall sliding if touching a wall and moving in that direction
+		if (isTouchingWall && move != 0 && rb.velocity.y < 0)
+		{
+			cc.sharedMaterial.friction = wallSlideFriction;
+
+			// Turn collider off then on to reset friction cache
+			cc.enabled = false;
+			cc.enabled = true;
+
+			isWallSliding = true;
+			animator.SetBool("isJumping", false);
+		} else
+		{
+			cc.sharedMaterial.friction = 0f;
+
+			// Turn collider off then on to reset friction cache
+			cc.enabled = false;
+			cc.enabled = true;
+
+			isWallSliding = false;
+
+			if (!grounded)
+			{
+				animator.SetBool("isJumping", true);
+			}
+		}
+
+		animator.SetBool("isWallSliding", isWallSliding);
 	}
 
 	public void Jump()
 	{
-		if (m_Grounded)
+		if (grounded)
 		{
-			m_Grounded = false;
-			m_Rigidbody2D.velocity = Vector2.up * m_JumpForce;
+			grounded = false;
+
+			// Set Y velocity to jump force
+			var newVelocity = rb.velocity;
+			newVelocity.y = jumpForce;
+			rb.velocity = newVelocity;
+		}
+
+		if (isWallSliding)
+		{
+			grounded = false;
+			isWallSliding = false;
+
+			// Set Y velocity to jump force
+			var newVelocity = rb.velocity;
+			newVelocity.y = jumpForce;
+			if (isFacingRight)
+			{
+				newVelocity.x = -jumpForce;
+			} else
+			{
+				newVelocity.x = jumpForce;
+			}
+			rb.velocity = newVelocity;
+		}
+
+		if (!grounded && !isWallSliding)
+		{
+			animator.SetBool("isJumping", true);
 		}
 	}
 
+	public void TakeDamage(float damage, CharacterController2D damagedByPlayer)
+	{
+		health -= damage;
+
+		Debug.Log("Player " + playerNumber + " took " + damage + " damage from Player " + damagedByPlayer.playerNumber + ". Remaining health: " + health + ".");
+
+		if (health <= 0)
+		{
+			Die();
+			damagedByPlayer.score += killPoints;
+			damagedByPlayer.UpdateScoreText();
+		}
+	}
+
+	public void Die()
+	{
+		Debug.Log("Player " + playerNumber + " died.");
+		weaponSlot.gameObject.GetComponent<Weapon>().rotation = Quaternion.Euler(0, 0, 0);
+		SelectWeapon(Weapons.Pistol);
+		isDead = true;
+		DeactivateCharacter();
+		transform.position = deadPosition.position;
+		canRespawnTime = Time.time + respawnTime;
+	}
+
+	public void Respawn()
+	{
+		Debug.Log("Player " + playerNumber + " respawned.");
+		isDead = false;
+		health = maxHealth;
+		var respawnPositionIndex = Random.Range(0, respawnPositions.Length);
+		transform.position = respawnPositions[respawnPositionIndex].position;
+		ActivateCharacter();
+	}
+
+	public void UpdateScoreText()
+	{
+		scoreText.text = "Player " + playerNumber + ": " + score;
+	}
+
+	public void SelectWeapon(string weaponName)
+	{
+		foreach (Transform weapon in weaponSlot)
+		{
+			if (weapon.name == weaponName)
+			{
+				weapon.gameObject.SetActive(true);
+				weaponSlot.GetComponent<Weapon>().weapon = weapon.gameObject;
+			}
+			else
+			{
+				weapon.gameObject.SetActive(false);
+			}
+		}
+	}
+
+	private void StopJumpAnimation()
+	{
+		animator.SetBool("isJumping", false);
+	}
 
 	private void Flip()
 	{
 		// Switch the way the player is labelled as facing.
-		m_FacingRight = !m_FacingRight;
+		isFacingRight = !isFacingRight;
 
-		// Multiply the player's x local scale by -1.
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
+		transform.Rotate(0f, 180f, 0f);
+	}
+
+	private void ActivateCharacter()
+	{
+		if (PlayerManager.Players[playerNumber - 1])
+		{
+			sr.enabled = true;
+			rb.bodyType = RigidbodyType2D.Dynamic;
+			cc.enabled = true;
+			pm.enabled = true;
+			ws.SetActive(true);
+			scoreText.enabled = true;
+			SetPlayerColor();
+		}
+	}
+
+	private void DeactivateCharacter()
+	{
+		if (PlayerManager.Players[playerNumber - 1])
+		{
+			sr.enabled = false;
+			rb.bodyType = RigidbodyType2D.Kinematic;
+			cc.enabled = false;
+			pm.enabled = false;
+			ws.SetActive(false);
+		}
+	}
+
+	private void SetPlayerColor()
+	{
+		switch (playerNumber)
+		{
+			case 1:
+				sr.color = PlayerManager.PlayerColor1;
+				if (scoreText)
+					scoreText.color = PlayerManager.PlayerColor1;
+				break;
+			case 2:
+				sr.color = PlayerManager.PlayerColor2;
+				if (scoreText)
+					scoreText.color = PlayerManager.PlayerColor2;
+				break;
+			case 3:
+				sr.color = PlayerManager.PlayerColor3;
+				if (scoreText)
+					scoreText.color = PlayerManager.PlayerColor3;
+				break;
+			case 4:
+				sr.color = PlayerManager.PlayerColor4;
+				if (scoreText)
+					scoreText.color = PlayerManager.PlayerColor4;
+				break;
+		}
 	}
 }
