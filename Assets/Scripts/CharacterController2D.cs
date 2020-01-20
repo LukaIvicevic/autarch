@@ -68,6 +68,9 @@ public class CharacterController2D : MonoBehaviour
 		cc = GetComponent<CircleCollider2D>();
 		pm = GetComponent<PlayerMovement>();
 
+		weaponSlot = transform.Find("WeaponSlot");
+
+
 		if (scoreText != null)
 		{
 			scoreText.text = "Player " + playerNumber + ": " + score;
@@ -235,6 +238,7 @@ public class CharacterController2D : MonoBehaviour
 	public void Die()
 	{
 		Debug.Log("Player " + playerNumber + " died.");
+		weaponSlot.gameObject.GetComponent<Weapon>().rotation = Quaternion.Euler(0, 0, 0);
 		SelectWeapon(Weapons.Pistol);
 		isDead = true;
 		DeactivateCharacter();
@@ -259,11 +263,6 @@ public class CharacterController2D : MonoBehaviour
 
 	public void SelectWeapon(string weaponName)
 	{
-		if (weaponSlot == null)
-		{
-			weaponSlot = transform.Find("WeaponSlot");
-		}
-
 		foreach (Transform weapon in weaponSlot)
 		{
 			if (weapon.name == weaponName)

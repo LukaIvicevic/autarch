@@ -6,9 +6,9 @@ public class Weapon : MonoBehaviour
 {
     public GameObject player;
     public GameObject weapon;
+    public Quaternion rotation;
     private IWeapon wc;
     private CharacterController2D controller;
-    private Quaternion rotation;
 
     // Start is called before the first frame update
     void Start()
