@@ -235,6 +235,7 @@ public class CharacterController2D : MonoBehaviour
 	public void Die()
 	{
 		Debug.Log("Player " + playerNumber + " died.");
+		SelectWeapon(Weapons.Pistol);
 		isDead = true;
 		DeactivateCharacter();
 		transform.position = deadPosition.position;
