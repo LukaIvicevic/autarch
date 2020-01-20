@@ -15,13 +15,13 @@ public class Weapon : MonoBehaviour
     {
         controller = player.GetComponent<CharacterController2D>();
         wc = weapon.GetComponent<IWeapon>();
-
         rotation = transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
+        wc = weapon.GetComponent<IWeapon>();
         transform.rotation = rotation;
         RotateWeapon();
 
