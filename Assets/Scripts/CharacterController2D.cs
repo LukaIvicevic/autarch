@@ -5,7 +5,6 @@ using UnityEngine.Events;
 public class CharacterController2D : MonoBehaviour
 {
 	public int playerNumber = 1;
-	public int score = 0;
 	[SerializeField]
 	private float maxHealth = 100f;
 	[SerializeField]
@@ -46,7 +45,6 @@ public class CharacterController2D : MonoBehaviour
 	private bool isDead = false;
 	private float canRespawnTime = 0;
 	private float health = 100f;
-	private int killPoints = 1;
 	private bool isWallSliding = false;
 	private Transform weaponSlot;
 
@@ -73,7 +71,7 @@ public class CharacterController2D : MonoBehaviour
 
 		if (scoreText != null)
 		{
-			scoreText.text = "Player " + playerNumber + ": " + score;
+			scoreText.text = "Player " + playerNumber + ": " + ScoreManager.GetScore(playerNumber);
 		}
 
 		ActivateCharacter();
@@ -233,11 +231,11 @@ public class CharacterController2D : MonoBehaviour
 
 			if (damagedByPlayer.playerNumber == playerNumber)
 			{
-				score -= killPoints;
+				ScoreManager.Suicide(playerNumber);
 				UpdateScoreText();
 			} else
 			{
-				damagedByPlayer.score += killPoints;
+				ScoreManager.Kill(damagedByPlayer.playerNumber);
 				damagedByPlayer.UpdateScoreText();
 			}
 		}
@@ -266,7 +264,7 @@ public class CharacterController2D : MonoBehaviour
 
 	public void UpdateScoreText()
 	{
-		scoreText.text = "Player " + playerNumber + ": " + score;
+		scoreText.text = "Player " + playerNumber + ": " + ScoreManager.GetScore(playerNumber);
 	}
 
 	public void SelectWeapon(string weaponName)
