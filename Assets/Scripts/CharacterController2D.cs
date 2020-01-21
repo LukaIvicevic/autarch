@@ -230,8 +230,16 @@ public class CharacterController2D : MonoBehaviour
 		if (health <= 0)
 		{
 			Die();
-			damagedByPlayer.score += killPoints;
-			damagedByPlayer.UpdateScoreText();
+
+			if (damagedByPlayer.playerNumber == playerNumber)
+			{
+				score -= killPoints;
+				UpdateScoreText();
+			} else
+			{
+				damagedByPlayer.score += killPoints;
+				damagedByPlayer.UpdateScoreText();
+			}
 		}
 	}
 
