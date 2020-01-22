@@ -22,16 +22,19 @@ public class Weapon : MonoBehaviour
     {
         wc = weapon.GetComponent<IWeapon>();
         transform.rotation = rotation;
-        RotateWeapon();
+        if (!ScoreManager.ScoreLimitReached)
+        {
+            RotateAndFireWeapon();
+        }
+    }
 
+    private void RotateAndFireWeapon()
+    {
         if (Input.GetAxisRaw("Fire1_P" + controller.playerNumber) > 0)
         {
             wc.Fire();
         }
-    }
 
-    private void RotateWeapon()
-    {
         var horizontalAim = Input.GetAxisRaw("HorizontalAim_P" + controller.playerNumber);
         if (horizontalAim != 0)
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class RoundOverPanel : MonoBehaviour
+public class RoundOver : MonoBehaviour
 {
     public GameObject Container;
     public TextMeshProUGUI FirstPlaceText;
