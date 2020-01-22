@@ -11,6 +11,7 @@ public class RoundOver : MonoBehaviour
     public TextMeshProUGUI ThirdPlaceText;
     public TextMeshProUGUI FourthPlaceText;
 
+    private float slowMotionTimeScale = 0.25f;
 
     // Update is called once per frame
     void Update()
@@ -18,6 +19,28 @@ public class RoundOver : MonoBehaviour
         if (ScoreManager.ScoreLimitReached)
         {
             Container.SetActive(true);
+            Time.timeScale = slowMotionTimeScale;
         }
+    }
+
+    public void GoAgain()
+    {
+        ScoreManager.Initialize();
+        // TODO: Reset player positions
+    }
+
+    public void LevelSelect()
+    {
+        // TODO: Load LevelSelect scene
+    }
+
+    public void Quit()
+    {
+        // TODO: Load MainMenu scene
+    }
+
+    private void OnDestroy()
+    {
+        Time.timeScale = 1;
     }
 }

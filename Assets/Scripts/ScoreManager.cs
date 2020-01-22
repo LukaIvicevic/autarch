@@ -48,7 +48,7 @@ public static class ScoreManager
         ScoreLimitReached = false;
     }
 
-    private static void Initialize()
+    public static void Initialize()
     {
         ScoreLimitReached = false;
         Scores = new int[PlayerManager.PlayerCount];
