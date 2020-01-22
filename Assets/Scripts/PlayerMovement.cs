@@ -25,12 +25,38 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal_P" + controller.playerNumber) * runSpeed;
+        if (!ScoreManager.ScoreLimitReached)
+        {
+            HandleMovementInput();
+        } else
+        {
+            horizontalMove = 0;
+            controller.Move(horizontalMove * Time.fixedDeltaTime);
+        }
+        HandleAnimation();
+    }
 
+    void FixedUpdate()
+    {
+        if (!ScoreManager.ScoreLimitReached)
+        {
+            HandleMovementAndJump();
+        }
+    }
+
+    private void HandleMovementInput()
+    {
+        horizontalMove = Input.GetAxisRaw("Horizontal_P" + controller.playerNumber) * runSpeed;
+        jumpHeld = Input.GetAxisRaw("Jump_P" + controller.playerNumber) > 0;
+    }
+
+    private void HandleAnimation()
+    {
         if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) < 1)
         {
             animator.SetBool("isMoving", false);
-        } else
+        }
+        else
         {
             animator.SetBool("isMoving", true);
         }
@@ -39,11 +65,9 @@ public class PlayerMovement : MonoBehaviour
         {
             jump = true;
         }
-
-        jumpHeld = Input.GetAxisRaw("Jump_P" + controller.playerNumber) > 0;
     }
 
-    void FixedUpdate()
+    private void HandleMovementAndJump()
     {
         // Move our character
         controller.Move(horizontalMove * Time.fixedDeltaTime);

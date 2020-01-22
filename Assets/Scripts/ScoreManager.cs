@@ -23,14 +23,20 @@ public static class ScoreManager
 
     public static void Kill(int playerNumber)
     {
-        var score = GetScore(playerNumber) + PointsPerKill;
-        SetScore(playerNumber, score);
+        if (!ScoreLimitReached)
+        {
+            var score = GetScore(playerNumber) + PointsPerKill;
+            SetScore(playerNumber, score);
+        }
     }
 
     public static void Suicide(int playerNumber)
     {
-        var score = GetScore(playerNumber) - SuicidePenalty;
-        SetScore(playerNumber, score);
+        if (!ScoreLimitReached)
+        {
+            var score = GetScore(playerNumber) - SuicidePenalty;
+            SetScore(playerNumber, score);
+        }
     }
 
     public static void Reset()
@@ -44,6 +50,7 @@ public static class ScoreManager
 
     private static void Initialize()
     {
+        ScoreLimitReached = false;
         Scores = new int[PlayerManager.PlayerCount];
         for (int i = 0; i < PlayerManager.PlayerCount; i++)
         {
