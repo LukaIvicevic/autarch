@@ -7,9 +7,9 @@ public static class ScoreManager
 
     public static int SuicidePenalty = 1;
 
-    public static int ScoreLimit = 15;
+    public static int ScoreLimit = 1;
 
-    private static bool scoreLimitReached = false;
+    public static bool ScoreLimitReached = false;
 
     static ScoreManager()
     {
@@ -39,7 +39,7 @@ public static class ScoreManager
         {
             SetScore(i + 1, 0);
         }
-        scoreLimitReached = false;
+        ScoreLimitReached = false;
     }
 
     private static void Initialize()
@@ -56,7 +56,7 @@ public static class ScoreManager
         Scores[playerNumber - 1] = score;
         if (GetScore(playerNumber) == ScoreLimit)
         {
-            scoreLimitReached = true;
+            ScoreLimitReached = true;
         }
     }
 }
