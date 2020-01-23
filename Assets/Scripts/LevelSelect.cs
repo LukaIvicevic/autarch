@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelect : MonoBehaviour
 {
-    public string LevelName;
+    public string levelName;
     public TextMeshProUGUI ButtonText;
 
     private void Awake()
     {
-        ButtonText.text = LevelName;
+        ButtonText.text = levelName;
     }
 
     // Update is called once per frame
@@ -22,7 +22,6 @@ public class LevelSelect : MonoBehaviour
 
     public void LoadLevel()
     {
-        // TODO: Use LoadManager
-        SceneManager.LoadScene(LevelName);
+        LoadManager.Load(levelName);
     }
 }

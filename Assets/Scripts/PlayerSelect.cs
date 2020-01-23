@@ -40,7 +40,7 @@ public class PlayerSelect : MonoBehaviour
 
         if (Input.GetButtonDown("Submit"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            LoadManager.Load(LoadManager.Scenes.LevelSelectMenu);
         }
     }
 }
