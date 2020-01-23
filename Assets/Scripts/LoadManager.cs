@@ -15,6 +15,7 @@ public static class LoadManager
         Level1
     }
 
+    public static string LastLoadedLevel;
     private static Action onLoadManagerCallback;
 
     public static void LoadManagerCallback()
@@ -35,6 +36,7 @@ public static class LoadManager
         };
 
         // Load target scene
+        LastLoadedLevel = scene.ToString();
         SceneManager.LoadScene(scene.ToString());
     }
 
@@ -47,6 +49,7 @@ public static class LoadManager
         };
 
         // Load target scene
+        LastLoadedLevel = scene;
         SceneManager.LoadScene(scene);
     }
 }

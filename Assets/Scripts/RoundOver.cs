@@ -26,17 +26,19 @@ public class RoundOver : MonoBehaviour
     public void GoAgain()
     {
         ScoreManager.Initialize();
-        // TODO: Reset player positions
+        LoadManager.Load(LoadManager.LastLoadedLevel);
     }
 
     public void LevelSelect()
     {
-        // TODO: Load LevelSelect scene
+        ScoreManager.Initialize();
+        LoadManager.Load(LoadManager.Scenes.LevelSelectMenu);
     }
 
     public void Quit()
     {
-        // TODO: Load MainMenu scene
+        ScoreManager.Initialize();
+        LoadManager.Load(LoadManager.Scenes.MainMenu);
     }
 
     private void OnDestroy()
