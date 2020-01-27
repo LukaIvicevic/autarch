@@ -15,6 +15,7 @@ public class RocketLauncher : MonoBehaviour, IWeapon
     {
         if (Time.time >= canFireTime)
         {
+            AudioManager.instance.Play("Rocket_Fire");
             var firedRocket = Instantiate(rocket, firePoint.position, firePoint.rotation);
             firedRocket.GetComponent<Rocket>().firedBy = owner;
             canFireTime = Time.time + fireDelay;

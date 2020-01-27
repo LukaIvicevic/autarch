@@ -227,6 +227,8 @@ public class CharacterController2D : MonoBehaviour
 
 	public void TakeDamage(float damage, CharacterController2D damagedByPlayer)
 	{
+		AudioManager.instance.Play("Player_Hurt");
+
 		health -= damage;
 
 		Debug.Log("Player " + playerNumber + " took " + damage + " damage from Player " + damagedByPlayer.playerNumber + ". Remaining health: " + health + ".");
