@@ -193,6 +193,9 @@ public class CharacterController2D : MonoBehaviour
 			var newVelocity = rb.velocity;
 			newVelocity.y = jumpForce;
 			rb.velocity = newVelocity;
+
+			// Play jump sound
+			AudioManager.instance.Play("Player_Jump");
 		}
 
 		if (isWallSliding)
@@ -211,6 +214,9 @@ public class CharacterController2D : MonoBehaviour
 				newVelocity.x = jumpForce;
 			}
 			rb.velocity = newVelocity;
+
+			// Play jump sound
+			AudioManager.instance.Play("Player_Jump");
 		}
 
 		if (!grounded && !isWallSliding)
