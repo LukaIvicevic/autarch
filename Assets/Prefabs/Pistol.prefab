@@ -97,7 +97,7 @@ MonoBehaviour:
   owner: {fileID: 0}
   firePoint: {fileID: 1917396473856254908}
   bullet: {fileID: 8613377493017294813, guid: e596da88fbbd24548a44490aefb6f729, type: 3}
-  fireDelay: 1
+  fireDelay: 0.6
 --- !u!1 &7447679388795869317
 GameObject:
   m_ObjectHideFlags: 0
