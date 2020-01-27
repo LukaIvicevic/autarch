@@ -2679,9 +2679,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
+  m_HorizontalAxis: Horizontal_P1
+  m_VerticalAxis: Vertical_P1
+  m_SubmitButton: Jump_P1
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
@@ -2698,7 +2698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 8074490521979919641}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &365992219
@@ -4242,3 +4242,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b94f4bb6152369e469b396a60d70982e, type: 3}
+--- !u!1 &8074490521979919641 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8074490520286427836, guid: b94f4bb6152369e469b396a60d70982e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8074490521979919640}
+  m_PrefabAsset: {fileID: 0}
