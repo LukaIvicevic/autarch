@@ -1,6 +1,8 @@
 using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 public class AudioManager : MonoBehaviour
 {
@@ -10,6 +12,11 @@ public class AudioManager : MonoBehaviour
 	public AudioMixerGroup mixerGroup;
 
 	public Sound[] sounds;
+
+	public Sound[] music;
+
+	private List<Sound> songs;
+	private Sound currentSong;
 
 	void Awake()
 	{
@@ -31,6 +38,15 @@ public class AudioManager : MonoBehaviour
 
 			s.source.outputAudioMixerGroup = mixerGroup;
 		}
+
+		foreach (Sound m in music)
+		{
+			m.source = gameObject.AddComponent<AudioSource>();
+			m.source.clip = m.clip;
+			m.source.loop = m.loop;
+
+			m.source.outputAudioMixerGroup = mixerGroup;
+		}
 	}
 
 	public void Play(string sound)
@@ -48,4 +64,50 @@ public class AudioManager : MonoBehaviour
 		s.source.Play();
 	}
 
+	private void Update()
+	{
+		HandleMusic();
+	}
+
+	private void HandleMusic()
+	{
+		if (currentSong == null)
+		{
+			songs = Shuffle(music);
+			ChooseNewSong();
+		}
+		else
+		{
+			if (!currentSong.source.isPlaying)
+			{
+				ChooseNewSong();
+			}
+		}
+	}
+
+	private List<Sound> Shuffle(Sound[] sounds)
+	{
+		var soundList = sounds.ToList();
+		return soundList.OrderBy(s => Guid.NewGuid()).ToList();
+	}
+
+	private void ChooseNewSong()
+	{
+		if (songs.Count() == 0)
+		{
+			songs = Shuffle(music);
+		}
+
+		currentSong = songs.FirstOrDefault();
+		songs.Remove(currentSong);
+		PlaySong(currentSong);
+	}
+
+	private void PlaySong(Sound song)
+	{
+		song.source.volume = song.volume * (1f + UnityEngine.Random.Range(-song.volumeVariance / 2f, song.volumeVariance / 2f));
+		song.source.pitch = song.pitch * (1f + UnityEngine.Random.Range(-song.pitchVariance / 2f, song.pitchVariance / 2f));
+
+		song.source.Play();
+	}
 }
