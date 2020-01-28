@@ -169,7 +169,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 1
-  score: 0
   maxHealth: 100
   respawnTime: 5
   jumpForce: 10
@@ -333,6 +332,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2105090719050828068}
   weapon: {fileID: 8159469625395085630}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &2678915839709930233
 PrefabInstance:
   m_ObjectHideFlags: 0
