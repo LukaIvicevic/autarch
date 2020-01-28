@@ -66,7 +66,10 @@ public class AudioManager : MonoBehaviour
 
 	private void Update()
 	{
-		HandleMusic();
+		if (music.Length != 0)
+		{
+			HandleMusic();
+		}
 	}
 
 	private void HandleMusic()
