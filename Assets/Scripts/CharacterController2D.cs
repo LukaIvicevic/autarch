@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Experimental.Rendering.LWRP;
 
 public class CharacterController2D : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class CharacterController2D : MonoBehaviour
 	private TextMeshProUGUI scoreText;
 	[SerializeField]
 	private Animator animator;
+	[SerializeField]
+	private Light2D light;
 
 	private SpriteRenderer sr;
 	private CircleCollider2D cc;
@@ -65,6 +68,7 @@ public class CharacterController2D : MonoBehaviour
 		sr = GetComponent<SpriteRenderer>();
 		cc = GetComponent<CircleCollider2D>();
 		pm = GetComponent<PlayerMovement>();
+		light.color = GetPlayerColor();
 
 		weaponSlot = transform.Find("WeaponSlot");
 
@@ -314,6 +318,7 @@ public class CharacterController2D : MonoBehaviour
 			pm.enabled = true;
 			ws.SetActive(true);
 			scoreText.enabled = true;
+			light.enabled = true;
 			SetPlayerColor();
 		}
 	}
@@ -327,33 +332,32 @@ public class CharacterController2D : MonoBehaviour
 			cc.enabled = false;
 			pm.enabled = false;
 			ws.SetActive(false);
+			light.enabled = false;
 		}
 	}
 
 	private void SetPlayerColor()
 	{
+		var color = GetPlayerColor();
+		sr.color = color;
+		if (scoreText)
+			scoreText.color = color;
+	}
+
+	private Color32 GetPlayerColor()
+	{
 		switch (playerNumber)
 		{
 			case 1:
-				sr.color = PlayerManager.PlayerColor1;
-				if (scoreText)
-					scoreText.color = PlayerManager.PlayerColor1;
-				break;
+				return PlayerManager.PlayerColor1;
 			case 2:
-				sr.color = PlayerManager.PlayerColor2;
-				if (scoreText)
-					scoreText.color = PlayerManager.PlayerColor2;
-				break;
+				return PlayerManager.PlayerColor2;
 			case 3:
-				sr.color = PlayerManager.PlayerColor3;
-				if (scoreText)
-					scoreText.color = PlayerManager.PlayerColor3;
-				break;
+				return PlayerManager.PlayerColor3;
 			case 4:
-				sr.color = PlayerManager.PlayerColor4;
-				if (scoreText)
-					scoreText.color = PlayerManager.PlayerColor4;
-				break;
+				return PlayerManager.PlayerColor4;
+			default:
+				return PlayerManager.PlayerColor1;
 		}
 	}
 }
