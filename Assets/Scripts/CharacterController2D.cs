@@ -1,11 +1,11 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Experimental.Rendering.LWRP;
 
 public class CharacterController2D : MonoBehaviour
 {
 	public int playerNumber = 1;
-	public int score = 0;
 	[SerializeField]
 	private float maxHealth = 100f;
 	[SerializeField]
@@ -33,6 +33,8 @@ public class CharacterController2D : MonoBehaviour
 	private TextMeshProUGUI scoreText;
 	[SerializeField]
 	private Animator animator;
+	[SerializeField]
+	private Light2D light;
 
 	private SpriteRenderer sr;
 	private CircleCollider2D cc;
@@ -46,7 +48,6 @@ public class CharacterController2D : MonoBehaviour
 	private bool isDead = false;
 	private float canRespawnTime = 0;
 	private float health = 100f;
-	private int killPoints = 1;
 	private bool isWallSliding = false;
 	private Transform weaponSlot;
 
@@ -67,13 +68,14 @@ public class CharacterController2D : MonoBehaviour
 		sr = GetComponent<SpriteRenderer>();
 		cc = GetComponent<CircleCollider2D>();
 		pm = GetComponent<PlayerMovement>();
+		light.color = GetPlayerColor();
 
 		weaponSlot = transform.Find("WeaponSlot");
 
 
 		if (scoreText != null)
 		{
-			scoreText.text = "Player " + playerNumber + ": " + score;
+			scoreText.text = "Player " + playerNumber + ": " + ScoreManager.GetScore(playerNumber);
 		}
 
 		ActivateCharacter();
@@ -195,6 +197,9 @@ public class CharacterController2D : MonoBehaviour
 			var newVelocity = rb.velocity;
 			newVelocity.y = jumpForce;
 			rb.velocity = newVelocity;
+
+			// Play jump sound
+			AudioManager.instance.Play("Player_Jump");
 		}
 
 		if (isWallSliding)
@@ -213,6 +218,9 @@ public class CharacterController2D : MonoBehaviour
 				newVelocity.x = jumpForce;
 			}
 			rb.velocity = newVelocity;
+
+			// Play jump sound
+			AudioManager.instance.Play("Player_Jump");
 		}
 
 		if (!grounded && !isWallSliding)
@@ -223,6 +231,8 @@ public class CharacterController2D : MonoBehaviour
 
 	public void TakeDamage(float damage, CharacterController2D damagedByPlayer)
 	{
+		AudioManager.instance.Play("Player_Hurt");
+
 		health -= damage;
 
 		Debug.Log("Player " + playerNumber + " took " + damage + " damage from Player " + damagedByPlayer.playerNumber + ". Remaining health: " + health + ".");
@@ -230,8 +240,16 @@ public class CharacterController2D : MonoBehaviour
 		if (health <= 0)
 		{
 			Die();
-			damagedByPlayer.score += killPoints;
-			damagedByPlayer.UpdateScoreText();
+
+			if (damagedByPlayer.playerNumber == playerNumber)
+			{
+				ScoreManager.Suicide(playerNumber);
+				UpdateScoreText();
+			} else
+			{
+				ScoreManager.Kill(damagedByPlayer.playerNumber);
+				damagedByPlayer.UpdateScoreText();
+			}
 		}
 	}
 
@@ -258,7 +276,7 @@ public class CharacterController2D : MonoBehaviour
 
 	public void UpdateScoreText()
 	{
-		scoreText.text = "Player " + playerNumber + ": " + score;
+		scoreText.text = "Player " + playerNumber + ": " + ScoreManager.GetScore(playerNumber);
 	}
 
 	public void SelectWeapon(string weaponName)
@@ -300,6 +318,7 @@ public class CharacterController2D : MonoBehaviour
 			pm.enabled = true;
 			ws.SetActive(true);
 			scoreText.enabled = true;
+			light.enabled = true;
 			SetPlayerColor();
 		}
 	}
@@ -313,33 +332,32 @@ public class CharacterController2D : MonoBehaviour
 			cc.enabled = false;
 			pm.enabled = false;
 			ws.SetActive(false);
+			light.enabled = false;
 		}
 	}
 
 	private void SetPlayerColor()
 	{
+		var color = GetPlayerColor();
+		sr.color = color;
+		if (scoreText)
+			scoreText.color = color;
+	}
+
+	private Color32 GetPlayerColor()
+	{
 		switch (playerNumber)
 		{
 			case 1:
-				sr.color = PlayerManager.PlayerColor1;
-				if (scoreText)
-					scoreText.color = PlayerManager.PlayerColor1;
-				break;
+				return PlayerManager.PlayerColor1;
 			case 2:
-				sr.color = PlayerManager.PlayerColor2;
-				if (scoreText)
-					scoreText.color = PlayerManager.PlayerColor2;
-				break;
+				return PlayerManager.PlayerColor2;
 			case 3:
-				sr.color = PlayerManager.PlayerColor3;
-				if (scoreText)
-					scoreText.color = PlayerManager.PlayerColor3;
-				break;
+				return PlayerManager.PlayerColor3;
 			case 4:
-				sr.color = PlayerManager.PlayerColor4;
-				if (scoreText)
-					scoreText.color = PlayerManager.PlayerColor4;
-				break;
+				return PlayerManager.PlayerColor4;
+			default:
+				return PlayerManager.PlayerColor1;
 		}
 	}
 }

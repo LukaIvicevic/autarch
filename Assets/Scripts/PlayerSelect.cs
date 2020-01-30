@@ -14,33 +14,33 @@ public class PlayerSelect : MonoBehaviour
     void Update()
     {
         // Add players when they press fire button
-        if (Input.GetAxisRaw("Fire1_P1") > 0)
+        if (Input.GetAxisRaw("Jump_P1") > 0)
         {
             PlayerManager.AddPlayer(1);
             Player1.SetActive(true);
         }
 
-        if (Input.GetAxisRaw("Fire1_P2") > 0)
+        if (Input.GetAxisRaw("Jump_P2") > 0)
         {
             PlayerManager.AddPlayer(2);
             Player2.SetActive(true);
         }
 
-        if (Input.GetAxisRaw("Fire1_P3") > 0)
+        if (Input.GetAxisRaw("Jump_P3") > 0)
         {
             PlayerManager.AddPlayer(3);
             Player3.SetActive(true);
         }
 
-        if (Input.GetAxisRaw("Fire1_P4") > 0)
+        if (Input.GetAxisRaw("Jump_P4") > 0)
         {
             PlayerManager.AddPlayer(4);
             Player4.SetActive(true);
         }
 
-        if (Input.GetButtonDown("Submit"))
+        if (Input.GetButtonDown("Submit_P1") || Input.GetButtonDown("Submit_P2") || Input.GetButtonDown("Submit_P3") || Input.GetButtonDown("Submit_P4"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            LoadManager.Load(LoadManager.Scenes.LevelSelectMenu);
         }
     }
 }

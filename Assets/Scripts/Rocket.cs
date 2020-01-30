@@ -33,6 +33,8 @@ public class Rocket : MonoBehaviour
 
     private void Explode()
     {
+        AudioManager.instance.Play("Rocket_Explosion");
+
         var collisions = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
 
         foreach (var c in collisions)

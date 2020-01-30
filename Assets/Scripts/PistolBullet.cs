@@ -13,6 +13,7 @@ public class PistolBullet : MonoBehaviour
     void Start()
     {
         rb.velocity = transform.right * speed;
+        AudioManager.instance.Play("Pistol_Shoot");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
