@@ -35,6 +35,14 @@ public class CharacterController2D : MonoBehaviour
 	private Animator animator;
 	[SerializeField]
 	private Light2D light;
+	[SerializeField]
+	private float minLightIntensity = 0f;
+	[SerializeField]
+	private float maxLightIntensity = 0.8f;
+	[SerializeField]
+	private float minLightRadius = 1;
+	[SerializeField]
+	private float maxLightRadius = 4;
 
 	private SpriteRenderer sr;
 	private CircleCollider2D cc;
@@ -71,7 +79,6 @@ public class CharacterController2D : MonoBehaviour
 		light.color = GetPlayerColor();
 
 		weaponSlot = transform.Find("WeaponSlot");
-
 
 		if (scoreText != null)
 		{
@@ -249,6 +256,7 @@ public class CharacterController2D : MonoBehaviour
 			{
 				ScoreManager.Kill(damagedByPlayer.playerNumber);
 				damagedByPlayer.UpdateScoreText();
+				damagedByPlayer.UpdateLight();
 			}
 		}
 	}
@@ -295,6 +303,22 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
+	public void UpdateLight()
+	{
+		var scoreLimit = ScoreManager.ScoreLimit;
+		var playerScore = ScoreManager.GetScore(playerNumber);
+		if (scoreLimit > 0 && playerScore >= 0)
+		{
+			var scorePercentage = (float)playerScore / (float)scoreLimit;
+
+			var intensity = Mathf.Lerp(minLightIntensity, maxLightIntensity, scorePercentage);
+			light.intensity = intensity;
+
+			var outerRadius = Mathf.Lerp(minLightRadius, maxLightRadius, scorePercentage);
+			light.pointLightOuterRadius = outerRadius;
+		}
+	}
+
 	private void StopJumpAnimation()
 	{
 		animator.SetBool("isJumping", false);
@@ -320,6 +344,7 @@ public class CharacterController2D : MonoBehaviour
 			scoreText.enabled = true;
 			light.enabled = true;
 			SetPlayerColor();
+			UpdateLight();
 		}
 	}
 
@@ -333,6 +358,7 @@ public class CharacterController2D : MonoBehaviour
 			pm.enabled = false;
 			ws.SetActive(false);
 			light.enabled = false;
+			UpdateLight();
 		}
 	}
 
