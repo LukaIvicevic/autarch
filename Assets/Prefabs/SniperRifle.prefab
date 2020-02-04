@@ -127,4 +127,4 @@ MonoBehaviour:
   owner: {fileID: 0}
   firePoint: {fileID: 4393821231224682446}
   bullet: {fileID: 3945170864164600674, guid: d6e4c75d96c8f934a9de538a9251cfd6, type: 3}
-  fireDelay: 1
+  fireDelay: 2
