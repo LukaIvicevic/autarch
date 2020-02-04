@@ -30,7 +30,7 @@ public class Weapon : MonoBehaviour
 
     private void RotateAndFireWeapon()
     {
-        if (Input.GetAxisRaw("Fire1_P" + controller.playerNumber) > 0)
+        if (Input.GetAxisRaw("Fire1_P" + controller.playerNumber) > 0 && PlayerManager.CanControl)
         {
             wc.Fire();
         }

@@ -11,6 +11,8 @@ public static class PlayerManager
     public static Color32 PlayerColor3 = new Color32(249, 200, 14, 255);
     public static Color32 PlayerColor4 = new Color32(246, 1, 157, 255);
 
+    public static bool CanControl = false;
+
     public static int PlayerCount { 
         get
         { 

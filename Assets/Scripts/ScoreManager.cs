@@ -7,7 +7,7 @@ public static class ScoreManager
 
     public static int SuicidePenalty = 1;
 
-    public static int ScoreLimit = 1;
+    public static int ScoreLimit = 10;
 
     public static bool ScoreLimitReached = false;
 

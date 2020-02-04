@@ -70,22 +70,25 @@ public class PlayerMovement : MonoBehaviour
     private void HandleMovementAndJump()
     {
         // Move our character
-        controller.Move(horizontalMove * Time.fixedDeltaTime);
+        if (PlayerManager.CanControl)
+        {
+            controller.Move(horizontalMove * Time.fixedDeltaTime);
 
-        if (jump)
-        {
-            controller.Jump();
-            jump = false;
-        }
+            if (jump)
+            {
+                controller.Jump();
+                jump = false;
+            }
 
-        // "Better Jump" code
-        if (rb.velocity.y < -0.01)
-        {
-            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
-        }
-        else if (rb.velocity.y > 0.01 && !jumpHeld)
-        {
-            rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
+            // "Better Jump" code
+            if (rb.velocity.y < -0.01)
+            {
+                rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+            }
+            else if (rb.velocity.y > 0.01 && !jumpHeld)
+            {
+                rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
+            }
         }
     }
 }
