@@ -528,11 +528,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf361cd0513a919469a4f451a178f5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Container: {fileID: 4149102904552563021}
-  FirstPlaceText: {fileID: 8074490521117697631}
-  SecondPlaceText: {fileID: 8074490522367539262}
-  ThirdPlaceText: {fileID: 8074490521805504323}
-  FourthPlaceText: {fileID: 8074490522123691881}
+  container: {fileID: 4149102904552563021}
+  firstPlaceGameObject: {fileID: 8074490521117697629}
+  secondPlaceGameObject: {fileID: 8074490522367539260}
+  thirdPlaceGameObject: {fileID: 8074490521805504321}
+  fourthPlaceGameObject: {fileID: 8074490522123691895}
+  firstPlaceText: {fileID: 8074490521117697631}
+  secondPlaceText: {fileID: 8074490522367539262}
+  thirdPlaceText: {fileID: 8074490521805504323}
+  fourthPlaceText: {fileID: 8074490522123691881}
 --- !u!1 &8074490521197854810
 GameObject:
   m_ObjectHideFlags: 0

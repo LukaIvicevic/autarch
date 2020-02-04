@@ -188,6 +188,10 @@ MonoBehaviour:
   scoreText: {fileID: 0}
   animator: {fileID: 7123550533985505121}
   light: {fileID: 4015334141270147655}
+  minLightIntensity: 0
+  maxLightIntensity: 0.8
+  minLightRadius: 1
+  maxLightRadius: 4
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
