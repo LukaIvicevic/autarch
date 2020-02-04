@@ -43,7 +43,6 @@ public class Weapon : MonoBehaviour
         {
             rotation = Quaternion.Euler(0, 0, 0);
             transform.rotation = rotation;
-            return;
         }
         
         // Left
@@ -51,7 +50,6 @@ public class Weapon : MonoBehaviour
         {
             rotation = Quaternion.Euler(0, 180, 0);
             transform.rotation = rotation;
-            return;
         }
 
         // Up
@@ -59,7 +57,6 @@ public class Weapon : MonoBehaviour
         {
             rotation = Quaternion.Euler(0, 0, 90);
             transform.rotation = rotation;
-            return;
         }
 
         // Down
@@ -67,7 +64,6 @@ public class Weapon : MonoBehaviour
         {
             rotation = Quaternion.Euler(0, 0, 270);
             transform.rotation = rotation;
-            return;
         }
 
         // Up Right
@@ -75,7 +71,6 @@ public class Weapon : MonoBehaviour
         {
             rotation = Quaternion.Euler(0, 0, 45);
             transform.rotation = rotation;
-            return;
         }
 
         // Up Left
@@ -83,7 +78,6 @@ public class Weapon : MonoBehaviour
         {
             rotation = Quaternion.Euler(180, 0, -135);
             transform.rotation = rotation;
-            return;
         }
 
         // Down Right
@@ -91,7 +85,6 @@ public class Weapon : MonoBehaviour
         {
             rotation = Quaternion.Euler(0, 0, -45);
             transform.rotation = rotation;
-            return;
         }
 
         // Down Left
@@ -99,7 +92,6 @@ public class Weapon : MonoBehaviour
         {
             rotation = Quaternion.Euler(180, 0, 135);
             transform.rotation = rotation;
-            return;
         }
     }
 }
