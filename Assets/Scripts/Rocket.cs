@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class Rocket : MonoBehaviour
 {
     public float damage = 30;
     public float speed = 20f;
+    public float knockbackModifier = 1;
     public Rigidbody2D rb;
     public CharacterController2D firedBy;
     public float explosionRadius = 5f;
@@ -43,6 +45,9 @@ public class Rocket : MonoBehaviour
             if (playerController != null)
             {
                 playerController.TakeDamage(damage, firedBy);
+
+                Vector2 heading = playerController.transform.position - transform.position;
+                playerController.Knockback(GetKnockback(heading));
             }
         }
 
@@ -51,6 +56,30 @@ public class Rocket : MonoBehaviour
         var explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
         explosion.transform.localScale = new Vector2(explosionRadius * 2, explosionRadius * 2);
         Destroy(explosion, explosionDuration);
+    }
+
+    private Vector2 GetKnockback(Vector2 heading)
+    {
+        float xSign;
+        float ySign;
+
+        if (heading.x > 0)
+        {
+            xSign = 1;
+        }
+        else
+        {
+            xSign = -1;
+        }
+        if (heading.y > 0)
+        {
+            ySign = 1;
+        } else
+        {
+            ySign = -1;
+        }
+
+        return new Vector2(knockbackModifier * xSign, knockbackModifier * ySign);
     }
 
     private void RocketRotation()

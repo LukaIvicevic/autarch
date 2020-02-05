@@ -145,6 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 30
   speed: 15
+  knockbackModifier: 750
   rb: {fileID: 1468516281831145426}
   firedBy: {fileID: 0}
   explosionRadius: 3
