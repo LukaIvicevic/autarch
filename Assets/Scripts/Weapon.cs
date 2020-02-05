@@ -38,8 +38,6 @@ public class Weapon : MonoBehaviour
         var horizontalAim = Input.GetAxisRaw("HorizontalAim_P" + controller.playerNumber);
         var verticalAim = Input.GetAxisRaw("VerticalAim_P" + controller.playerNumber);
 
-        Debug.Log(horizontalAim + " " + verticalAim);
-
         // Right
         if (horizontalAim == 1 && verticalAim == 0)
         {

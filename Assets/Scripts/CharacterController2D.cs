@@ -401,8 +401,7 @@ public class CharacterController2D : MonoBehaviour
 
 	private void UpdateHealthBar()
 	{
-		var newScalePercentage = Mathf.Lerp(0, health, healthBarInitialWidth);
-		var newScale = healthBarInitialWidth * newScalePercentage;
+		var newScale = Mathf.Lerp(0, healthBarInitialWidth, health / maxHealth);
 		healthBar.localScale = new Vector3(newScale, healthBar.localScale.y, healthBar.localScale.z);
 	}
 }
