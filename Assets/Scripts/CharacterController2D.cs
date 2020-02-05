@@ -329,6 +329,11 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
+	public void Knockback(Vector2 force)
+	{
+		rb.AddForce(force);
+	}
+
 	private void StopJumpAnimation()
 	{
 		animator.SetBool("isJumping", false);

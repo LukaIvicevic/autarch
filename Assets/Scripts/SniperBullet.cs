@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SniperBullet : MonoBehaviour
 {
     public float damage = 20;
     public float speed = 50f;
+    public float knockbackModifier = 1;
     public Rigidbody2D rb;
     public CharacterController2D firedBy;
 
@@ -23,6 +22,7 @@ public class SniperBullet : MonoBehaviour
         if (damagedPlayer != null)
         {
             damagedPlayer.TakeDamage(damage, firedBy);
+            damagedPlayer.Knockback(rb.velocity * knockbackModifier);
         }
 
         Destroy(gameObject);

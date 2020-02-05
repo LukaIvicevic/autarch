@@ -6,6 +6,7 @@ public class PistolBullet : MonoBehaviour
 {
     public float damage = 10;
     public float speed = 20f;
+    public float knockbackModifier = 1;
     public Rigidbody2D rb;
     public CharacterController2D firedBy;
 
@@ -23,6 +24,7 @@ public class PistolBullet : MonoBehaviour
         if (damagedPlayer != null)
         {
             damagedPlayer.TakeDamage(damage, firedBy);
+            damagedPlayer.Knockback(rb.velocity * knockbackModifier);
         }
 
         Destroy(gameObject);
