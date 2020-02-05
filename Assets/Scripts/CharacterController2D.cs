@@ -340,6 +340,9 @@ public class CharacterController2D : MonoBehaviour
 		isFacingRight = !isFacingRight;
 
 		transform.Rotate(0f, 180f, 0f);
+
+		// Reposition health bar so it doesn't flip with character
+		healthBarMain.transform.Rotate(0f, 180f, 0f);
 	}
 
 	private void ActivateCharacter()
