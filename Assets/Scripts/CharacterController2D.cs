@@ -43,6 +43,10 @@ public class CharacterController2D : MonoBehaviour
 	private float minLightRadius = 1;
 	[SerializeField]
 	private float maxLightRadius = 4;
+	[SerializeField]
+	private Transform healthBar;
+	[SerializeField]
+	private GameObject healthBarMain;
 
 	private SpriteRenderer sr;
 	private CircleCollider2D cc;
@@ -58,6 +62,7 @@ public class CharacterController2D : MonoBehaviour
 	private float health = 100f;
 	private bool isWallSliding = false;
 	private Transform weaponSlot;
+	private float healthBarInitialWidth = 0;
 
 	const float groundedRadius = .1f;
 	const float wallCheckRadius = .2f;
@@ -93,6 +98,8 @@ public class CharacterController2D : MonoBehaviour
 			OnLandEvent = new UnityEvent();
 
 		OnLandEvent.AddListener(StopJumpAnimation);
+
+		healthBarInitialWidth = healthBar.localScale.x;
 	}
 
 	private void Update()
@@ -259,6 +266,8 @@ public class CharacterController2D : MonoBehaviour
 				damagedByPlayer.UpdateLight();
 			}
 		}
+
+		UpdateHealthBar();
 	}
 
 	public void Die()
@@ -280,6 +289,7 @@ public class CharacterController2D : MonoBehaviour
 		var respawnPositionIndex = Random.Range(0, respawnPositions.Length);
 		transform.position = respawnPositions[respawnPositionIndex].position;
 		ActivateCharacter();
+		UpdateHealthBar();
 	}
 
 	public void UpdateScoreText()
@@ -343,6 +353,7 @@ public class CharacterController2D : MonoBehaviour
 			ws.SetActive(true);
 			scoreText.enabled = true;
 			light.enabled = true;
+			healthBarMain.SetActive(true);
 			SetPlayerColor();
 			UpdateLight();
 		}
@@ -358,6 +369,7 @@ public class CharacterController2D : MonoBehaviour
 			pm.enabled = false;
 			ws.SetActive(false);
 			light.enabled = false;
+			healthBarMain.SetActive(false);
 			UpdateLight();
 		}
 	}
@@ -385,5 +397,12 @@ public class CharacterController2D : MonoBehaviour
 			default:
 				return PlayerManager.PlayerColor1;
 		}
+	}
+
+	private void UpdateHealthBar()
+	{
+		var newScalePercentage = Mathf.Lerp(0, health, healthBarInitialWidth);
+		var newScale = healthBarInitialWidth * newScalePercentage;
+		healthBar.localScale = new Vector3(newScale, healthBar.localScale.y, healthBar.localScale.z);
 	}
 }
