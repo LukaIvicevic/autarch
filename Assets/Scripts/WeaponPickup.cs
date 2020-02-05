@@ -27,6 +27,8 @@ public class WeaponPickup : MonoBehaviour
 
         if (playerObject.tag == "Player")
         {
+            AudioManager.instance.Play("Weapon_Pickup");
+
             playerObject.GetComponent<CharacterController2D>().SelectWeapon(weapon.name);
 
             DisablePickup();

@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -5484,6 +5484,51 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7877256663798904826, guid: 8fd614a4c5484694d8378729b79ce4b3,
+        type: 3}
+      propertyPath: sounds.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7877256663798904826, guid: 8fd614a4c5484694d8378729b79ce4b3,
+        type: 3}
+      propertyPath: sounds.Array.data[5].name
+      value: Sniper_Shoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7877256663798904826, guid: 8fd614a4c5484694d8378729b79ce4b3,
+        type: 3}
+      propertyPath: sounds.Array.data[5].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 281b196e75fcf0f4692f4e599b930f3c, type: 3}
+    - target: {fileID: 7877256663798904826, guid: 8fd614a4c5484694d8378729b79ce4b3,
+        type: 3}
+      propertyPath: sounds.Array.data[5].volume
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 7877256663798904826, guid: 8fd614a4c5484694d8378729b79ce4b3,
+        type: 3}
+      propertyPath: sounds.Array.data[5].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7877256663798904826, guid: 8fd614a4c5484694d8378729b79ce4b3,
+        type: 3}
+      propertyPath: sounds.Array.data[6].name
+      value: Weapon_Pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 7877256663798904826, guid: 8fd614a4c5484694d8378729b79ce4b3,
+        type: 3}
+      propertyPath: sounds.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8200ee79de3bd4e45b61a59a90753a7e, type: 3}
+    - target: {fileID: 7877256663798904826, guid: 8fd614a4c5484694d8378729b79ce4b3,
+        type: 3}
+      propertyPath: sounds.Array.data[6].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7877256663798904826, guid: 8fd614a4c5484694d8378729b79ce4b3,
+        type: 3}
+      propertyPath: sounds.Array.data[6].pitch
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7877256663798904827, guid: 8fd614a4c5484694d8378729b79ce4b3,
         type: 3}
       propertyPath: m_Name
