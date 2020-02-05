@@ -38,6 +38,8 @@ public class Weapon : MonoBehaviour
         var horizontalAim = Input.GetAxisRaw("HorizontalAim_P" + controller.playerNumber);
         var verticalAim = Input.GetAxisRaw("VerticalAim_P" + controller.playerNumber);
 
+        Debug.Log(horizontalAim + " " + verticalAim);
+
         // Right
         if (horizontalAim == 1 && verticalAim == 0)
         {
@@ -67,28 +69,28 @@ public class Weapon : MonoBehaviour
         }
 
         // Up Right
-        if ((verticalAim > 0.4 && verticalAim < 0.8 && horizontalAim > 0.4 && horizontalAim < 0.8) ||  (verticalAim == 1 && horizontalAim == 1))
+        if ((verticalAim > 0.3 && verticalAim < 0.9 && horizontalAim > 0.3 && horizontalAim < 0.9) ||  (verticalAim == 1 && horizontalAim == 1))
         {
             rotation = Quaternion.Euler(0, 0, 45);
             transform.rotation = rotation;
         }
 
         // Up Left
-        if ((verticalAim > 0.4 && verticalAim < 0.8 && horizontalAim < -0.4 && horizontalAim > -0.8) || (verticalAim == 1 && horizontalAim == -1))
+        if ((verticalAim > 0.3 && verticalAim < 0.9 && horizontalAim < -0.3 && horizontalAim > -0.9) || (verticalAim == 1 && horizontalAim == -1))
         {
             rotation = Quaternion.Euler(180, 0, -135);
             transform.rotation = rotation;
         }
 
         // Down Right
-        if ((verticalAim < -0.4 && verticalAim > -0.8 && horizontalAim > 0.4 && horizontalAim < 0.8) || (verticalAim == -1 && horizontalAim == 1))
+        if ((verticalAim < -0.3 && verticalAim > -0.9 && horizontalAim > 0.3 && horizontalAim < 0.9) || (verticalAim == -1 && horizontalAim == 1))
         {
             rotation = Quaternion.Euler(0, 0, -45);
             transform.rotation = rotation;
         }
 
         // Down Left
-        if ((verticalAim < -0.4 && verticalAim > -0.8 && horizontalAim < -0.4 && horizontalAim > -0.8) || (verticalAim == -1 && horizontalAim == -1))
+        if ((verticalAim < -0.3 && verticalAim > -0.9 && horizontalAim < -0.3 && horizontalAim > -0.9) || (verticalAim == -1 && horizontalAim == -1))
         {
             rotation = Quaternion.Euler(180, 0, 135);
             transform.rotation = rotation;
