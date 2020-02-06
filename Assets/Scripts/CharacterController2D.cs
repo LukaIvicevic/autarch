@@ -35,6 +35,18 @@ public class CharacterController2D : MonoBehaviour
 	private Animator animator;
 	[SerializeField]
 	private Light2D light;
+	[SerializeField]
+	private float minLightIntensity = 0f;
+	[SerializeField]
+	private float maxLightIntensity = 0.8f;
+	[SerializeField]
+	private float minLightRadius = 1;
+	[SerializeField]
+	private float maxLightRadius = 4;
+	[SerializeField]
+	private Transform healthBar;
+	[SerializeField]
+	private GameObject healthBarMain;
 
 	private SpriteRenderer sr;
 	private CircleCollider2D cc;
@@ -50,6 +62,7 @@ public class CharacterController2D : MonoBehaviour
 	private float health = 100f;
 	private bool isWallSliding = false;
 	private Transform weaponSlot;
+	private float healthBarInitialWidth = 0;
 
 	const float groundedRadius = .1f;
 	const float wallCheckRadius = .2f;
@@ -72,7 +85,6 @@ public class CharacterController2D : MonoBehaviour
 
 		weaponSlot = transform.Find("WeaponSlot");
 
-
 		if (scoreText != null)
 		{
 			scoreText.text = "Player " + playerNumber + ": " + ScoreManager.GetScore(playerNumber);
@@ -86,6 +98,8 @@ public class CharacterController2D : MonoBehaviour
 			OnLandEvent = new UnityEvent();
 
 		OnLandEvent.AddListener(StopJumpAnimation);
+
+		healthBarInitialWidth = healthBar.localScale.x;
 	}
 
 	private void Update()
@@ -249,8 +263,11 @@ public class CharacterController2D : MonoBehaviour
 			{
 				ScoreManager.Kill(damagedByPlayer.playerNumber);
 				damagedByPlayer.UpdateScoreText();
+				damagedByPlayer.UpdateLight();
 			}
 		}
+
+		UpdateHealthBar();
 	}
 
 	public void Die()
@@ -272,6 +289,7 @@ public class CharacterController2D : MonoBehaviour
 		var respawnPositionIndex = Random.Range(0, respawnPositions.Length);
 		transform.position = respawnPositions[respawnPositionIndex].position;
 		ActivateCharacter();
+		UpdateHealthBar();
 	}
 
 	public void UpdateScoreText()
@@ -295,6 +313,27 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
+	public void UpdateLight()
+	{
+		var scoreLimit = ScoreManager.ScoreLimit;
+		var playerScore = ScoreManager.GetScore(playerNumber);
+		if (scoreLimit > 0 && playerScore >= 0)
+		{
+			var scorePercentage = (float)playerScore / (float)scoreLimit;
+
+			var intensity = Mathf.Lerp(minLightIntensity, maxLightIntensity, scorePercentage);
+			light.intensity = intensity;
+
+			var outerRadius = Mathf.Lerp(minLightRadius, maxLightRadius, scorePercentage);
+			light.pointLightOuterRadius = outerRadius;
+		}
+	}
+
+	public void Knockback(Vector2 force)
+	{
+		rb.AddForce(force);
+	}
+
 	private void StopJumpAnimation()
 	{
 		animator.SetBool("isJumping", false);
@@ -306,6 +345,9 @@ public class CharacterController2D : MonoBehaviour
 		isFacingRight = !isFacingRight;
 
 		transform.Rotate(0f, 180f, 0f);
+
+		// Reposition health bar so it doesn't flip with character
+		healthBarMain.transform.Rotate(0f, 180f, 0f);
 	}
 
 	private void ActivateCharacter()
@@ -319,7 +361,9 @@ public class CharacterController2D : MonoBehaviour
 			ws.SetActive(true);
 			scoreText.enabled = true;
 			light.enabled = true;
+			healthBarMain.SetActive(true);
 			SetPlayerColor();
+			UpdateLight();
 		}
 	}
 
@@ -333,6 +377,8 @@ public class CharacterController2D : MonoBehaviour
 			pm.enabled = false;
 			ws.SetActive(false);
 			light.enabled = false;
+			healthBarMain.SetActive(false);
+			UpdateLight();
 		}
 	}
 
@@ -359,5 +405,11 @@ public class CharacterController2D : MonoBehaviour
 			default:
 				return PlayerManager.PlayerColor1;
 		}
+	}
+
+	private void UpdateHealthBar()
+	{
+		var newScale = Mathf.Lerp(0, healthBarInitialWidth, health / maxHealth);
+		healthBar.localScale = new Vector3(newScale, healthBar.localScale.y, healthBar.localScale.z);
 	}
 }

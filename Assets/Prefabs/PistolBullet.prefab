@@ -145,6 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   speed: 20
+  knockbackModifier: 7
   rb: {fileID: 6919307451073984034}
   firedBy: {fileID: 0}
 --- !u!1 &9009266546598430321
