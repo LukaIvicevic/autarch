@@ -338,7 +338,7 @@ MonoBehaviour:
   airControl: 1
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 51
   groundCheck: {fileID: 2105090719297168152}
   wallCheck: {fileID: 7183784735523016807}
   ws: {fileID: 7102842525552550412}
