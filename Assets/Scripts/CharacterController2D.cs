@@ -47,6 +47,8 @@ public class CharacterController2D : MonoBehaviour
 	private Transform healthBar;
 	[SerializeField]
 	private GameObject healthBarMain;
+	[SerializeField]
+	private string defaultWeapon = Weapons.Pistol;
 
 	private SpriteRenderer sr;
 	private CircleCollider2D cc;
@@ -364,6 +366,7 @@ public class CharacterController2D : MonoBehaviour
 			healthBarMain.SetActive(true);
 			SetPlayerColor();
 			UpdateLight();
+			SelectWeapon(defaultWeapon);
 		}
 	}
 
