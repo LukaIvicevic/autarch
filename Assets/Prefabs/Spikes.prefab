@@ -107,11 +107,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3087842526581649082}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 396461f5f996f2c468a9a07f258b9a86, type: 3}
+  m_Script: {fileID: 11500000, guid: 0542dabdd02e2204190f8b964eac3cf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 15
-  knockbackModifier: 150
+  knockbackModifier: 50
   canDamageRate: 0.5
   rb: {fileID: 0}
   firedBy: {fileID: 0}

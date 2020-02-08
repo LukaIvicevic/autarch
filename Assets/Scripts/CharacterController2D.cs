@@ -245,19 +245,22 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
-	public void TakeDamage(float damage, CharacterController2D damagedByPlayer)
+	public void TakeDamage(float damage, CharacterController2D damagedByPlayer = null)
 	{
 		AudioManager.instance.Play("Player_Hurt");
 
 		health -= damage;
 
-		Debug.Log("Player " + playerNumber + " took " + damage + " damage from Player " + damagedByPlayer.playerNumber + ". Remaining health: " + health + ".");
+		if (damagedByPlayer != null)
+		{
+			Debug.Log("Player " + playerNumber + " took " + damage + " damage from Player " + damagedByPlayer.playerNumber + ". Remaining health: " + health + ".");
+		}
 
 		if (health <= 0)
 		{
 			Die();
 
-			if (damagedByPlayer.playerNumber == playerNumber)
+			if (damagedByPlayer == null || damagedByPlayer?.playerNumber == playerNumber)
 			{
 				ScoreManager.Suicide(playerNumber);
 				UpdateScoreText();
