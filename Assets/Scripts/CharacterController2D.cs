@@ -354,7 +354,10 @@ public class CharacterController2D : MonoBehaviour
 
 	private void ActivateCharacter()
 	{
-		if (PlayerManager.Players[playerNumber - 1])
+		// TODO: DEBUG ONLY - REMOVE
+		// !!!!!!!!!!!!!!!!!!!!!!!!
+		//if (PlayerManager.Players[playerNumber - 1])
+		if (true)
 		{
 			sr.enabled = true;
 			rb.bodyType = RigidbodyType2D.Dynamic;
