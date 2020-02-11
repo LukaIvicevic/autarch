@@ -279,7 +279,7 @@ public class CharacterController2D : MonoBehaviour
 	{
 		Debug.Log("Player " + playerNumber + " died.");
 		weaponSlot.gameObject.GetComponent<Weapon>().rotation = Quaternion.Euler(0, 0, 0);
-		SelectWeapon(Weapons.Pistol);
+		SelectWeapon(defaultWeapon);
 		isDead = true;
 		DeactivateCharacter();
 		transform.position = deadPosition.position;
@@ -357,10 +357,7 @@ public class CharacterController2D : MonoBehaviour
 
 	private void ActivateCharacter()
 	{
-		// TODO: DEBUG ONLY - REMOVE
-		// !!!!!!!!!!!!!!!!!!!!!!!!
-		//if (PlayerManager.Players[playerNumber - 1])
-		if (true)
+		if (PlayerManager.Players[playerNumber - 1] || PlayerManager.debug)
 		{
 			sr.enabled = true;
 			rb.bodyType = RigidbodyType2D.Dynamic;
