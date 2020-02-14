@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 15
-  knockbackModifier: 50
+  knockbackModifier: 1000
   canDamageRate: 0.5
   rb: {fileID: 0}
   firedBy: {fileID: 0}
