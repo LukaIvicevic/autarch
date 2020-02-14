@@ -11,7 +11,7 @@ public static class PlayerManager
 
     public static bool CanControl = false;
 
-    public static bool debug = true;
+    public static bool debug = false;
 
     public static int PlayerCount { 
         get

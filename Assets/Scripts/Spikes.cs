@@ -19,11 +19,11 @@ public class Spikes : MonoBehaviour, IWeapon
     {
         var damagedPlayer = collision.GetComponent<CharacterController2D>();
 
-        if (damagedPlayer != null && canDamageTime[damagedPlayer.playerNumber] < Time.time)
+        if (damagedPlayer != null && canDamageTime[damagedPlayer.playerNumber - 1] < Time.time)
         {
             damagedPlayer.TakeDamage(damage, firedBy);
             damagedPlayer.Knockback(rb.velocity * knockbackModifier);
-            canDamageTime[damagedPlayer.playerNumber] = Time.time + canDamageRate;
+            canDamageTime[damagedPlayer.playerNumber - 1] = Time.time + canDamageRate;
         }
     }
 }
