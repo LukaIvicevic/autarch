@@ -90,3 +90,22 @@ MonoBehaviour:
     loop: 0
     mixerGroup: {fileID: 0}
     source: {fileID: 0}
+  - name: Sniper_Shoot
+    clip: {fileID: 8300000, guid: 281b196e75fcf0f4692f4e599b930f3c, type: 3}
+    volume: 0.65
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Weapon_Pickup
+    clip: {fileID: 8300000, guid: 8200ee79de3bd4e45b61a59a90753a7e, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 2
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  music: []

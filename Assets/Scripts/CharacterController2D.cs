@@ -47,6 +47,8 @@ public class CharacterController2D : MonoBehaviour
 	private Transform healthBar;
 	[SerializeField]
 	private GameObject healthBarMain;
+	[SerializeField]
+	private string defaultWeapon = Weapons.Pistol;
 
 	private SpriteRenderer sr;
 	private CircleCollider2D cc;
@@ -243,19 +245,22 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
-	public void TakeDamage(float damage, CharacterController2D damagedByPlayer)
+	public void TakeDamage(float damage, CharacterController2D damagedByPlayer = null)
 	{
 		AudioManager.instance.Play("Player_Hurt");
 
 		health -= damage;
 
-		Debug.Log("Player " + playerNumber + " took " + damage + " damage from Player " + damagedByPlayer.playerNumber + ". Remaining health: " + health + ".");
+		if (damagedByPlayer != null)
+		{
+			Debug.Log("Player " + playerNumber + " took " + damage + " damage from Player " + damagedByPlayer.playerNumber + ". Remaining health: " + health + ".");
+		}
 
 		if (health <= 0)
 		{
 			Die();
 
-			if (damagedByPlayer.playerNumber == playerNumber)
+			if (damagedByPlayer == null || damagedByPlayer?.playerNumber == playerNumber)
 			{
 				ScoreManager.Suicide(playerNumber);
 				UpdateScoreText();
@@ -274,7 +279,7 @@ public class CharacterController2D : MonoBehaviour
 	{
 		Debug.Log("Player " + playerNumber + " died.");
 		weaponSlot.gameObject.GetComponent<Weapon>().rotation = Quaternion.Euler(0, 0, 0);
-		SelectWeapon(Weapons.Pistol);
+		SelectWeapon(defaultWeapon);
 		isDead = true;
 		DeactivateCharacter();
 		transform.position = deadPosition.position;
@@ -352,7 +357,7 @@ public class CharacterController2D : MonoBehaviour
 
 	private void ActivateCharacter()
 	{
-		if (PlayerManager.Players[playerNumber - 1])
+		if (PlayerManager.Players[playerNumber - 1] || PlayerManager.debug)
 		{
 			sr.enabled = true;
 			rb.bodyType = RigidbodyType2D.Dynamic;
@@ -364,6 +369,7 @@ public class CharacterController2D : MonoBehaviour
 			healthBarMain.SetActive(true);
 			SetPlayerColor();
 			UpdateLight();
+			SelectWeapon(defaultWeapon);
 		}
 	}
 

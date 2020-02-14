@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 public static class PlayerManager
@@ -12,6 +10,8 @@ public static class PlayerManager
     public static Color32 PlayerColor4 = new Color32(246, 1, 157, 255);
 
     public static bool CanControl = false;
+
+    public static bool debug = false;
 
     public static int PlayerCount { 
         get
