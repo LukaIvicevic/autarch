@@ -79,6 +79,16 @@ public class CharacterController2D : MonoBehaviour
 
 	private void Awake()
 	{
+		maxHealth = PlayerConfig.maxHealth;
+		respawnTime = PlayerConfig.respawnTime;
+		jumpForce = PlayerConfig.jumpForce;
+		movementSmoothing = PlayerConfig.movementSmoothing;
+		airControl = PlayerConfig.airControl;
+		minLightIntensity = PlayerConfig.minLightIntensity;
+		maxLightIntensity = PlayerConfig.maxLightIntensity;
+		minLightRadius = PlayerConfig.minLightRadius;
+		maxLightRadius = PlayerConfig.maxLightRadius;
+
 		rb = GetComponent<Rigidbody2D>();
 		sr = GetComponent<SpriteRenderer>();
 		cc = GetComponent<CircleCollider2D>();
