@@ -380,6 +380,7 @@ public class CharacterController2D : MonoBehaviour
 		if (PlayerManager.Players[playerNumber - 1])
 		{
 			sr.enabled = false;
+			rb.velocity = new Vector2(0, 0);
 			rb.bodyType = RigidbodyType2D.Kinematic;
 			cc.enabled = false;
 			pm.enabled = false;
