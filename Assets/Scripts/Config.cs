@@ -13,11 +13,18 @@ public class Config : MonoBehaviour
         var ini = new INIParser();
         ini.Open(Application.dataPath + "/config.ini");
 
+        LoadGame(ini);
         LoadPlayer(ini);
         LoadWeapons(ini);
 
         ini.Close();
         Debug.Log("Done.");
+    }
+
+    private void LoadGame(INIParser ini)
+    {
+        GameConfig.scoreLimit = ini.ReadValue("Game", "ScoreLimit", 5);
+        ScoreManager.ScoreLimit = GameConfig.scoreLimit;
     }
 
     private void LoadPlayer(INIParser ini)
