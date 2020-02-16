@@ -9,9 +9,9 @@ public class Config : MonoBehaviour
 
     private void Init()
     {
-        Debug.Log("Loading config..." + Application.dataPath + "/config.ini");
+        Debug.Log("Loading config..." + Application.persistentDataPath + "/config.ini");
         var ini = new INIParser();
-        ini.Open(Application.dataPath + "/config.ini");
+        ini.Open(Application.persistentDataPath + "/config.ini");
 
         LoadGame(ini);
         LoadPlayer(ini);
@@ -43,12 +43,12 @@ public class Config : MonoBehaviour
     private void LoadWeapons(INIParser ini)
     {
         PistolConfig.fireDelay = (float)ini.ReadValue("Weapons", "Pistol_FireDelay", 0.6f);
-        PistolConfig.damage = ini.ReadValue("Weapons", "Pistol_Damage", 10);
+        PistolConfig.damage = ini.ReadValue("Weapons", "Pistol_Damage", 50);
         PistolConfig.speed = ini.ReadValue("Weapons", "Pistol_Speed", 20);
         PistolConfig.knockbackModifier= ini.ReadValue("Weapons", "Pistol_KnockbackModifier", 7);
 
         SniperRifleConfig.fireDelay = ini.ReadValue("Weapons", "SniperRifle_FireDelay", 2);
-        SniperRifleConfig.damage = ini.ReadValue("Weapons", "SniperRifle_Damage", 25);
+        SniperRifleConfig.damage = ini.ReadValue("Weapons", "SniperRifle_Damage", 75);
         SniperRifleConfig.speed = ini.ReadValue("Weapons", "SniperRifle_Speed", 50);
         SniperRifleConfig.knockbackModifier = ini.ReadValue("Weapons", "SniperRifle_KnockbackModifier", 15);
 
