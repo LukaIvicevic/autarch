@@ -9,6 +9,11 @@ public class Pistol : MonoBehaviour, IWeapon
 
     private float canFireTime = 0;
 
+    private void Awake()
+    {
+        LoadConfig();
+    }
+
     public void Fire()
     {
         if (Time.time >= canFireTime)
@@ -17,5 +22,10 @@ public class Pistol : MonoBehaviour, IWeapon
             firedBullet.GetComponent<PistolBullet>().firedBy = owner;
             canFireTime = Time.time + fireDelay;
         }
+    }
+
+    private void LoadConfig()
+    {
+        fireDelay = PistolConfig.fireDelay;
     }
 }

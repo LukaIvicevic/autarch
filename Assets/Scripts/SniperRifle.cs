@@ -11,6 +11,11 @@ public class SniperRifle : MonoBehaviour, IWeapon
 
     private float canFireTime = 0;
 
+    private void Awake()
+    {
+        LoadConfig();
+    }
+
     public void Fire()
     {
         if (Time.time >= canFireTime)
@@ -19,5 +24,10 @@ public class SniperRifle : MonoBehaviour, IWeapon
             firedBullet.GetComponent<SniperBullet>().firedBy = owner;
             canFireTime = Time.time + fireDelay;
         }
+    }
+
+    private void LoadConfig()
+    {
+        fireDelay = SniperRifleConfig.fireDelay;
     }
 }

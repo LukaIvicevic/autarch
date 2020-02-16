@@ -79,15 +79,7 @@ public class CharacterController2D : MonoBehaviour
 
 	private void Awake()
 	{
-		maxHealth = PlayerConfig.maxHealth;
-		respawnTime = PlayerConfig.respawnTime;
-		jumpForce = PlayerConfig.jumpForce;
-		movementSmoothing = PlayerConfig.movementSmoothing;
-		airControl = PlayerConfig.airControl;
-		minLightIntensity = PlayerConfig.minLightIntensity;
-		maxLightIntensity = PlayerConfig.maxLightIntensity;
-		minLightRadius = PlayerConfig.minLightRadius;
-		maxLightRadius = PlayerConfig.maxLightRadius;
+		LoadConfig();
 
 		rb = GetComponent<Rigidbody2D>();
 		sr = GetComponent<SpriteRenderer>();
@@ -427,5 +419,18 @@ public class CharacterController2D : MonoBehaviour
 	{
 		var newScale = Mathf.Lerp(0, healthBarInitialWidth, health / maxHealth);
 		healthBar.localScale = new Vector3(newScale, healthBar.localScale.y, healthBar.localScale.z);
+	}
+
+	private void LoadConfig()
+	{
+		maxHealth = PlayerConfig.maxHealth;
+		respawnTime = PlayerConfig.respawnTime;
+		jumpForce = PlayerConfig.jumpForce;
+		movementSmoothing = PlayerConfig.movementSmoothing;
+		airControl = PlayerConfig.airControl;
+		minLightIntensity = PlayerConfig.minLightIntensity;
+		maxLightIntensity = PlayerConfig.maxLightIntensity;
+		minLightRadius = PlayerConfig.minLightRadius;
+		maxLightRadius = PlayerConfig.maxLightRadius;
 	}
 }
