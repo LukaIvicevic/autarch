@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
@@ -15,6 +12,11 @@ public class Rocket : MonoBehaviour
     public float explosionDuration = 0.5f;
 
     private Vector3 originalPosition;
+
+    private void Awake()
+    {
+        LoadConfig();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -74,7 +76,8 @@ public class Rocket : MonoBehaviour
         if (heading.y > 0)
         {
             ySign = 1;
-        } else
+        }
+        else
         {
             ySign = -1;
         }
@@ -88,7 +91,8 @@ public class Rocket : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 0, 90);
             return;
-        } else if (rb.velocity.x < 0.0001f && rb.velocity.x > -0.0001f && rb.velocity.y < 0)
+        }
+        else if (rb.velocity.x < 0.0001f && rb.velocity.x > -0.0001f && rb.velocity.y < 0)
         {
             transform.rotation = Quaternion.Euler(0, 0, 270);
             return;
@@ -100,5 +104,14 @@ public class Rocket : MonoBehaviour
             float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
+    }
+
+    private void LoadConfig()
+    {
+        damage = RocketLauncherConfig.damage;
+        speed = RocketLauncherConfig.speed;
+        knockbackModifier = RocketLauncherConfig.knockbackModifier;
+        explosionRadius = RocketLauncherConfig.explosionRadius;
+        explosionDuration = RocketLauncherConfig.explosionDuration;
     }
 }

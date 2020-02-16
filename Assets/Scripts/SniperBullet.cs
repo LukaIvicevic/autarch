@@ -8,6 +8,11 @@ public class SniperBullet : MonoBehaviour
     public Rigidbody2D rb;
     public CharacterController2D firedBy;
 
+    private void Awake()
+    {
+        LoadConfig();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,5 +31,12 @@ public class SniperBullet : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private void LoadConfig()
+    {
+        damage = SniperRifleConfig.damage;
+        speed = SniperRifleConfig.speed;
+        knockbackModifier = SniperRifleConfig.knockbackModifier;
     }
 }

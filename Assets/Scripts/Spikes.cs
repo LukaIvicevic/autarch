@@ -10,9 +10,14 @@ public class Spikes : MonoBehaviour, IWeapon
 
     private float[] canDamageTime = { 0, 0, 0, 0 };
 
+    private void Awake()
+    {
+        LoadConfig();
+    }
+
     public void Fire()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -25,5 +30,12 @@ public class Spikes : MonoBehaviour, IWeapon
             damagedPlayer.Knockback(rb.velocity * knockbackModifier);
             canDamageTime[damagedPlayer.playerNumber - 1] = Time.time + canDamageRate;
         }
+    }
+
+    private void LoadConfig()
+    {
+        damage = SpikesConfig.damage;
+        knockbackModifier = SpikesConfig.knockbackModifier;
+        canDamageRate = SpikesConfig.canDamageRate;
     }
 }

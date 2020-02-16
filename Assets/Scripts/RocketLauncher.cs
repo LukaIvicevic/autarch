@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RocketLauncher : MonoBehaviour, IWeapon
 {
@@ -11,6 +9,11 @@ public class RocketLauncher : MonoBehaviour, IWeapon
 
     private float canFireTime = 0;
 
+    private void Awake()
+    {
+        LoadConfig();
+    }
+
     public void Fire()
     {
         if (Time.time >= canFireTime)
@@ -20,5 +23,10 @@ public class RocketLauncher : MonoBehaviour, IWeapon
             firedRocket.GetComponent<Rocket>().firedBy = owner;
             canFireTime = Time.time + fireDelay;
         }
+    }
+
+    private void LoadConfig()
+    {
+        fireDelay = RocketLauncherConfig.fireDelay;
     }
 }
