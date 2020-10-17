@@ -65,6 +65,7 @@ public class CharacterController2D : MonoBehaviour
 	private bool isWallSliding = false;
 	private Transform weaponSlot;
 	private float healthBarInitialWidth = 0;
+	private CharacterController2D lastDamagedBy = null;
 
 	const float groundedRadius = .1f;
 	const float wallCheckRadius = .2f;
@@ -256,22 +257,34 @@ public class CharacterController2D : MonoBehaviour
 		if (damagedByPlayer != null)
 		{
 			Debug.Log("Player " + playerNumber + " took " + damage + " damage from Player " + damagedByPlayer.playerNumber + ". Remaining health: " + health + ".");
+			lastDamagedBy = damagedByPlayer;
 		}
 
 		if (health <= 0)
 		{
 			Die();
 
-			if (damagedByPlayer == null || damagedByPlayer?.playerNumber == playerNumber)
+			Debug.Log($"{damagedByPlayer?.name}, {lastDamagedBy?.name}");
+
+			if (damagedByPlayer?.playerNumber == playerNumber || (damagedByPlayer == null && lastDamagedBy == null))
 			{
 				ScoreManager.Suicide(playerNumber);
 				UpdateScoreText();
-			} else
+			}
+			else if (damagedByPlayer == null && lastDamagedBy != null)
+			{
+				ScoreManager.Kill(lastDamagedBy.playerNumber);
+				lastDamagedBy.UpdateScoreText();
+				lastDamagedBy.UpdateLight();
+			}
+			else
 			{
 				ScoreManager.Kill(damagedByPlayer.playerNumber);
 				damagedByPlayer.UpdateScoreText();
 				damagedByPlayer.UpdateLight();
 			}
+
+			lastDamagedBy = null;
 		}
 
 		UpdateHealthBar();
